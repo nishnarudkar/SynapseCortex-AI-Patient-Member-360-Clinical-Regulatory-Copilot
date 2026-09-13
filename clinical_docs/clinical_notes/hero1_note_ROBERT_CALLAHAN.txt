@@ -1,0 +1,132 @@
+================================================================================
+SYNAPSECORTEX AI – CLINICAL ENCOUNTER NOTE
+================================================================================
+FACILITY     : Piedmont Atlanta Medical Center
+NOTE TYPE    : Office Visit – Established Patient (Outpatient)
+ENCOUNTER ID : (see SYNAPSE_HEALTH.RAW.ENCOUNTERS)
+PATIENT ID   : HERO-PT-001
+DATE OF VISIT: 2026-08-05
+ATTENDING    : Dr. Priya Venkataraman, MD (Nephrology / Internal Medicine)
+NPI          : [see encounter record]
+================================================================================
+
+PATIENT INFORMATION
+-------------------
+Name          : Robert Callahan
+Date of Birth : 1968  |  Age: 58
+Gender        : Male
+Insurance     : BlueCross PPO  #BC-88441122
+PCP           : On file
+
+================================================================================
+REASON FOR VISIT
+================================================================================
+Mr. Callahan presents for a scheduled nephrology follow-up appointment to assess
+progression of known Stage 3 Chronic Kidney Disease (CKD). Patient reports
+persistent mild fatigue and occasional lower extremity edema over the past 3
+weeks. He denies chest pain, shortness of breath, hematuria, or dysuria.
+
+================================================================================
+ACTIVE PROBLEM LIST
+================================================================================
+1.  Chronic Kidney Disease, Stage 3 (eGFR 38 mL/min)      ICD-10: N18.3
+2.  Type 2 Diabetes Mellitus, uncontrolled                  ICD-10: E11.9
+3.  Essential Hypertension                                  ICD-10: I10
+4.  Hyperlipidemia                                          ICD-10: E78.5
+
+================================================================================
+CURRENT MEDICATIONS (at time of visit)
+================================================================================
+1.  Metformin 1000 mg PO BID          [** ACTIVE – SAFETY CONCERN – see below **]
+2.  Lisinopril 10 mg PO daily
+3.  Atorvastatin 20 mg PO nightly
+4.  Aspirin 81 mg PO daily
+
+================================================================================
+VITAL SIGNS
+================================================================================
+Blood Pressure : 148 / 92 mmHg (elevated)
+Heart Rate     : 78 bpm
+Temperature    : 98.4°F (36.9°C)
+Respiratory    : 16 breaths/min
+Oxygen Sat     : 97% on room air
+Weight         : 221 lbs (100.2 kg)
+BMI            : 31.4
+
+================================================================================
+LABORATORY RESULTS (collected 2026-08-05, resulted 2026-08-06)
+================================================================================
+Test                              Result    Units     Reference      Flag
+───────────────────────────────────────────────────────────────────────────────
+Creatinine (Serum)                2.4       mg/dL     0.6–1.2        [H]
+eGFR (CKD-EPI)                   38        mL/min    ≥ 60           [L]
+Potassium                         5.2       mEq/L     3.5–5.0        [H]
+WBC                               7.1       K/uL      4.5–11.0       [N]
+───────────────────────────────────────────────────────────────────────────────
+
+================================================================================
+ASSESSMENT
+================================================================================
+1.  CKD Stage 3 – PROGRESSING
+    eGFR has declined from 48 mL/min (March 2026) to 38 mL/min today, consistent
+    with ongoing diabetic nephropathy. Serum creatinine elevated at 2.4 mg/dL.
+    Patient is at increased risk for lactic acidosis.
+
+2.  Diabetes Type 2 – INADEQUATELY CONTROLLED
+    No recent HbA1c on file at this facility. Glucose management optimization
+    required in the context of worsening renal function.
+
+3.  Hypertension – SUBOPTIMAL CONTROL
+    Blood pressure 148/92 mmHg today despite Lisinopril 10 mg daily. Dose
+    adjustment or addition of a second agent may be warranted.
+
+================================================================================
+⚠️  CLINICAL SAFETY ALERT – IDENTIFIED AT THIS ENCOUNTER
+================================================================================
+MEDICATION CONTRAINDICATION DETECTED:
+
+Patient is currently prescribed Metformin 1000 mg PO BID.
+
+Per FDA prescribing guidelines and clinical pharmacology standards, Metformin is
+CONTRAINDICATED in patients with an estimated GFR < 30 mL/min/1.73 m². Use
+requires caution and close monitoring when eGFR falls between 30–45 mL/min.
+
+This patient's eGFR is now 38 mL/min – within the HIGH-RISK CAUTION ZONE.
+Continued use at full dose (2,000 mg/day) poses significant risk of:
+  - Lactic acidosis (potentially life-threatening)
+  - Worsening metabolic acidosis given borderline hyperkalemia (K+ 5.2 mEq/L)
+  - Accelerated renal decline
+
+RECOMMENDED ACTIONS:
+  □  DISCONTINUE or DOSE-REDUCE Metformin immediately pending specialist review
+  □  Consider alternative glycemic agent (SGLT2 inhibitor with renal dosing,
+     or GLP-1 receptor agonist) in consultation with endocrinology
+  □  Recheck eGFR in 4 weeks
+  □  Renal dietitian referral placed
+
+This safety violation has been flagged in the SynapseCortex Clinical Copilot
+for pharmacovigilance review and payer alert notification.
+
+================================================================================
+PLAN
+================================================================================
+1.  HOLD Metformin 1000 mg – dose suspended pending endocrinology review.
+    Patient counseled on risks. Pharmacy notified.
+2.  Increase Lisinopril to 20 mg daily to improve BP and nephroprotection.
+3.  Order repeat BMP in 4 weeks.
+4.  Refer to endocrinology for diabetes medication optimization.
+5.  Order 24-hour urine protein to further characterize nephropathy.
+6.  Patient educated on low-sodium, low-protein renal diet.
+7.  Follow-up in nephrology clinic in 4 weeks or sooner if symptoms worsen.
+
+================================================================================
+ELECTRONICALLY SIGNED
+================================================================================
+Dr. Priya Venkataraman, MD – Nephrology
+Piedmont Atlanta Medical Center
+2026-08-05 16:45 EDT
+================================================================================
+NOTE: This document is synthetic healthcare data generated for the
+SynapseCortex AI Hackathon. All names, NPI numbers, and clinical values
+are fabricated for demonstration purposes only.
+================================================================================

@@ -1,0 +1,134 @@
+================================================================================
+SYNAPSECORTEX AI – CLINICAL ENCOUNTER NOTE
+================================================================================
+FACILITY     : Northwestern Memorial Hospital Emergency Department
+NOTE TYPE    : Emergency Department Visit – Level 5
+ENCOUNTER ID : (see SYNAPSE_HEALTH.RAW.ENCOUNTERS – Encounter 3 of 3)
+PATIENT ID   : HERO-PT-003
+DATE OF VISIT: 2026-07-22
+ATTENDING    : Dr. Rachel Okonkwo, MD (Emergency Medicine)
+NPI          : [see encounter record]
+================================================================================
+
+PATIENT INFORMATION
+-------------------
+Name          : James Whitfield
+Date of Birth : 1955  |  Age: 71
+Gender        : Male
+Insurance     : Medicare Advantage  #MA-55991100
+
+================================================================================
+CHIEF COMPLAINT
+================================================================================
+Severe headache (9/10), visual disturbance (blurring), and nausea × 3 hours.
+Blood pressure reading at home: 192/114 mmHg per patient.
+
+================================================================================
+TRIAGE ASSESSMENT
+================================================================================
+Time of Arrival: 14:22
+BP (triage)    : 194 / 116 mmHg  ← CRITICAL
+HR             : 96 bpm
+Temp           : 98.9°F
+RR             : 18
+SpO2           : 96% on room air
+GCS            : 15 (fully alert and oriented)
+ESI Level      : 1 (Immediate)
+
+================================================================================
+HISTORY OF PRESENT ILLNESS
+================================================================================
+Mr. Whitfield, a 71-year-old male with a well-documented history of
+atherosclerotic heart disease (post-PCI January 2026), CKD Stage 3, COPD,
+Type 2 diabetes, and chronic hypertension, presents with acute onset severe
+headache and bilateral visual blurring beginning approximately 3 hours prior
+to arrival. He states he ran out of his amlodipine 4 days ago and has not
+been able to fill the prescription due to pharmacy delay. He took his
+carvedilol and lisinopril this morning. Denies chest pain, arm weakness,
+facial droop, or slurred speech. No syncope or LOC.
+
+================================================================================
+PHYSICAL EXAMINATION
+================================================================================
+General     : Alert, in mild distress, holding temples
+Neuro       : CN II–XII intact; no focal deficits; grip strength symmetric; gait
+              normal; negative Romberg; no papilledema on fundoscopy (urgent
+              ophthalmology lamp exam performed at bedside)
+Cardiovascular: Regular rhythm; no murmurs; S3 possible
+Lungs       : Clear to auscultation bilaterally
+Abdomen     : Soft, non-tender
+Extremities : Trace bilateral ankle edema (1+)
+
+================================================================================
+DIAGNOSTIC WORKUP
+================================================================================
+EKG: Sinus rhythm 96 bpm; LVH pattern (consistent with chronic HTN); no
+     ST changes; no acute ischemia
+
+CT Head without contrast: NO ACUTE INTRACRANIAL HEMORRHAGE. No midline shift.
+                           Age-appropriate white matter changes.
+
+BMP:
+  Creatinine : 2.3 mg/dL (baseline ~2.1; mild elevation – expected with AHT)
+  K+         : 5.4 mEq/L  [H]
+  Na+        : 138 mEq/L  [N]
+  BUN        : 42 mg/dL   [H]
+
+Troponin I  : < 0.04 ng/mL (negative – no ACS)
+CBC         : Hgb 10.6 g/dL [L]; WBC 9.4 [N]; Plt 188 [N]
+
+================================================================================
+ASSESSMENT & DIAGNOSIS
+================================================================================
+1.  HYPERTENSIVE URGENCY/CRISIS (BP 194/116 with symptoms)    ICD-10: I10
+    Likely precipitated by 4-day medication gap (amlodipine unavailable).
+    CT head negative for hemorrhagic or ischemic stroke. No end-organ damage
+    beyond known CKD baseline. Classified as Hypertensive Urgency (not
+    Emergency – no acute end-organ damage).
+
+2.  Atherosclerotic CAD (post-PCI – stable)                   ICD-10: I25.10
+3.  CKD Stage 3 – mild acute elevation of creatinine          ICD-10: N18.3
+4.  Type 2 Diabetes – not the primary issue today             ICD-10: E11.9
+
+================================================================================
+TREATMENT
+================================================================================
+1.  IV Labetalol 20 mg administered over 2 minutes at 14:48
+    BP response: 194/116 → 168/98 at 15:15 → 148/88 at 15:45  ✓
+2.  Repeat BMP at 2 hours: Creatinine stable at 2.3; K+ 5.3
+3.  Oral Amlodipine 10 mg given in ED (dose increase from 5 mg)
+4.  IV access maintained x4 hours; patient monitored on telemetry
+5.  Pharmacy contacted – 30-day bridge supply of amlodipine 10 mg dispensed
+    from hospital outpatient pharmacy before discharge
+
+================================================================================
+DISCHARGE PLAN
+================================================================================
+BP at discharge: 138/84 mmHg
+Neurological exam: intact; headache resolved (2/10 on discharge)
+Disposition: Discharged to home with responsible adult (spouse)
+
+Discharge medications (updated):
+  - Amlodipine 10 mg PO daily (increased from 5 mg; 30-day supply in hand)
+  - Carvedilol 25 mg PO BID (continue)
+  - Lisinopril 10 mg PO daily (continue)
+  - All other medications unchanged
+
+Instructions:
+  □  Return precautions: BP > 180/120, chest pain, vision loss, weakness,
+     confusion, or difficulty speaking → call 911 immediately
+  □  PCP follow-up within 48–72 hours (BP check)
+  □  Establish pharmacy auto-refill program to prevent future medication gaps
+  □  Continue cardiac, nephrology, and diabetes follow-up per existing schedule
+
+================================================================================
+ELECTRONICALLY SIGNED
+================================================================================
+Dr. Rachel Okonkwo, MD – Emergency Medicine
+Northwestern Memorial Hospital
+2026-07-22 17:30 CST
+================================================================================
+NOTE: This document is synthetic healthcare data generated for the
+SynapseCortex AI Hackathon. All names, NPI numbers, and clinical values
+are fabricated for demonstration purposes only.
+================================================================================

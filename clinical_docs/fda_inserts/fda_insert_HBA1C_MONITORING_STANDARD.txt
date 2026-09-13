@@ -1,0 +1,155 @@
+================================================================================
+SYNAPSECORTEX AI – CLINICAL QUALITY & REGULATORY REFERENCE DOCUMENT
+================================================================================
+DOCUMENT TYPE : Clinical Quality Measure Reference – HbA1c Monitoring Standard
+MEASURE NAME  : Comprehensive Diabetes Care – HbA1c Testing (HEDIS CDC)
+NQF NUMBER    : NQF 0059
+GUIDELINE SRC : ADA Standards of Medical Care in Diabetes (2026 Edition)
+                NCQA HEDIS 2026 Technical Specifications
+                CMS Medicare Star Ratings – Diabetes Care Measure
+PREPARED FOR  : SynapseCortex AI Clinical Copilot – Care Gap Detection Module
+================================================================================
+NOTE: This document is a synthetic regulatory/clinical quality reference created
+for the SynapseCortex AI Hackathon. Content is modeled on publicly available
+ADA and NCQA quality standards.
+================================================================================
+
+PART I – WHAT IS HbA1c?
+─────────────────────────
+FULL NAME      : Hemoglobin A1c (Glycated Hemoglobin)
+LOINC CODE     : 4548-4
+DESCRIPTION    :
+  HbA1c measures the percentage of hemoglobin in red blood cells that has become
+  glycated (bonded with glucose). Because red blood cells survive approximately
+  8–12 weeks, HbA1c reflects average blood glucose levels over a 2–3 month
+  period. It is the gold standard for long-term glycemic assessment in diabetes
+  management.
+
+REFERENCE RANGES:
+  < 5.7%       : Normal (non-diabetic)
+  5.7% – 6.4%  : Prediabetes
+  ≥ 6.5%       : Diabetes diagnosis (if confirmed by repeat testing)
+  < 7.0%       : ADA target for most non-pregnant adults with T2DM
+  < 8.0%       : Acceptable target for select populations (elderly, high
+                  hypoglycemia risk, limited life expectancy, multiple comorbidities)
+  ≥ 9.0%       : Poor glycemic control – intensification of therapy required
+
+PART II – HEDIS MEASURE: COMPREHENSIVE DIABETES CARE (CDC)
+─────────────────────────────────────────────────────────────
+MEASURE ID     : HEDIS CDC – HbA1c Testing
+NQF ID         : NQF 0059
+DESCRIPTION    : The percentage of members 18–75 years of age with type 2 diabetes
+                 mellitus who had a HbA1c test during the measurement year.
+
+ELIGIBILITY CRITERIA:
+  - Age 18–75 as of December 31 of the measurement year
+  - Enrolled in the health plan for at least 11 months
+  - Active diagnosis of Type 2 Diabetes Mellitus (ICD-10: E11.x)
+  - Excludes: patients with Type 1 DM; gestational DM; patients in hospice
+
+NUMERATOR:
+  At least ONE HbA1c test (LOINC 4548-4 or equivalent) performed and resulted
+  during the measurement year (January 1 – December 31).
+
+DENOMINATOR:
+  All eligible members (see criteria above).
+
+PERFORMANCE LEVELS (NCQA National Benchmarks 2025):
+  ≥ 5th percentile   : < 71% compliance
+  50th percentile     : ~82% compliance
+  90th percentile     : ~90% compliance
+  Highest performing  : ~92%+
+
+HEDIS RELATED SUB-MEASURES (same CDC domain):
+  - HbA1c Poor Control (> 9.0%) – lower rate is better
+  - HbA1c Control < 8.0%        – higher rate is better
+  - HbA1c Control < 7.0%        – higher rate is better
+  - BP Control < 130/80          – higher rate is better
+  - Eye exam (retinal screening)
+  - Statin therapy prescribed
+  - Nephropathy monitoring (urine microalbumin or ACE/ARB use)
+
+PART III – ADA STANDARDS OF CARE: HbA1c TESTING FREQUENCY
+─────────────────────────────────────────────────────────────
+Source: ADA Standards of Medical Care in Diabetes – 2026
+
+Section 6 – Glycemic Targets:
+"Perform HbA1c testing at least two times a year in patients who are meeting
+treatment goals and who have stable glycemic control."
+
+"Perform HbA1c testing quarterly in patients whose therapy has changed or
+who are not meeting glycemic goals."
+
+"HbA1c goals should be individualized based on:
+  - Duration of diabetes
+  - Age and life expectancy
+  - Comorbid conditions (especially cardiovascular and renal disease)
+  - Hypoglycemia unawareness or severe hypoglycemia history
+  - Individual patient preferences and resources"
+
+Key Point (ADA 2026):
+"A reasonable HbA1c goal for many non-pregnant adults is < 7.0%. Less
+stringent goals (such as < 8.0%) may be appropriate for patients with a
+history of severe hypoglycemia, limited life expectancy, advanced microvascular
+or macrovascular complications, or extensive comorbid conditions."
+
+PART IV – CMS STAR RATING RELEVANCE
+──────────────────────────────────────
+Medicare Advantage plans are rated on HbA1c control as part of CMS Star Ratings
+(Stars Program, Measure C09):
+  - 4–5 Star Plans: ≥ 88% of diabetic members with HbA1c < 9.0%
+  - This directly impacts plan revenue, rebates, and bonus payments
+
+A single untested patient like Linda Moreno (14-month gap) represents:
+  - A denominator hit → reduces plan HEDIS score
+  - Potential 3-Star → 4-Star gap for small plan populations
+  - Estimated revenue impact: $500–$1,200 per untested member per year
+    (Star quality bonus differential)
+
+PART V – CARE GAP CLINICAL RISK STRATIFICATION
+─────────────────────────────────────────────────
+Patients with DIABETES + HbA1c GAP > 12 months are stratified as:
+
+  RISK TIER    : MODERATE TO HIGH
+  CLINICAL RISK:
+    1. Undetected glycemic deterioration (HbA1c may have risen without knowledge)
+    2. Missed opportunity to adjust therapy – patient may be on suboptimal dose
+    3. Retinopathy / nephropathy screening gap (HbA1c prompts cascade of care)
+    4. Cardiovascular risk: Every 1% increase in HbA1c ≈ 18% increase in CV events
+       (UKPDS, ACCORD trial data)
+
+  INTERVENTION PRIORITY: HIGH
+    - Outreach within 30 days
+    - Schedule lab draw and same-day PCP review
+    - Assess for additional care gaps (foot exam, eye exam, nephropathy monitoring)
+
+================================================================================
+SYNAPSECORTEX AI CLINICAL COPILOT – CARE GAP SUMMARY
+================================================================================
+MEASURE       : HEDIS CDC – HbA1c Testing (NQF 0059)
+HERO CASE     : Hero Patient 2 – Linda Moreno (HERO-PT-002)
+ALERT TYPE    : ⚠️  CARE GAP – HbA1c OVERDUE (14 MONTHS)
+
+PATIENT DATA  :
+  Diagnosis   : Type 2 Diabetes Mellitus (E11.9)
+  Last HbA1c  : 2025-07-11  |  Result: 7.8% [ABOVE TARGET]
+  Days Since  : ~430 days  (14+ months)
+  ADA Target  : ≥ 2 tests/year (or quarterly if not at goal)
+  Gap Status  : OPEN – No HbA1c in measurement year 2026
+
+COPILOT RECOMMENDATION:
+  1.  ORDER HbA1c immediately (LOINC 4548-4)
+  2.  Assess therapy: last known HbA1c 7.8% → above target of < 7.0%
+  3.  Schedule diabetes education (DSMES) referral
+  4.  Check additional HEDIS gaps: retinal exam, nephropathy screening, statin Rx
+  5.  Payer alert: Aetna HMO population health team notified for outreach tracking
+
+PAYER IMPACT  : HEDIS denominator hit – HbA1c not tested (2026 measurement year)
+CMS STAR RISK : Potential Star Rating 3→4 transition risk if not addressed
+SEVERITY      : MODERATE-HIGH
+AUTO-OUTREACH : YES – Patient outreach scheduled via SynapseCortex care coordinator
+================================================================================
+NOTE: This document is a synthetic clinical quality reference created for the
+SynapseCortex AI Hackathon. It is modeled on publicly available ADA, NCQA,
+and CMS standards. NOT for use in clinical decision-making.
+================================================================================

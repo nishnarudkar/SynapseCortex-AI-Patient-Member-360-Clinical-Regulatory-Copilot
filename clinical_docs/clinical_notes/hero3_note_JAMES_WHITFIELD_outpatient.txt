@@ -1,0 +1,96 @@
+================================================================================
+SYNAPSECORTEX AI – CLINICAL ENCOUNTER NOTE
+================================================================================
+FACILITY     : Northwestern Memorial Hospital Outpatient Clinic
+NOTE TYPE    : Outpatient Visit – Pulmonology Follow-Up
+ENCOUNTER ID : (see SYNAPSE_HEALTH.RAW.ENCOUNTERS – Encounter 2 of 3)
+PATIENT ID   : HERO-PT-003
+DATE OF VISIT: 2026-04-08
+ATTENDING    : Dr. Samuel Oduya, MD (Pulmonology)
+NPI          : [see encounter record]
+================================================================================
+
+PATIENT INFORMATION
+-------------------
+Name          : James Whitfield
+Date of Birth : 1955  |  Age: 71
+Gender        : Male
+Insurance     : Medicare Advantage  #MA-55991100
+
+================================================================================
+REASON FOR VISIT
+================================================================================
+Mr. Whitfield presents for pulmonology follow-up approximately 11 weeks post-
+hospital discharge for NSTEMI and cardiac catheterization. He reports increasing
+breathlessness over the past 2 weeks, productive cough with yellow-green sputum,
+and wheezing that has not responded adequately to his rescue inhaler. Denies
+fever. He reports his peak flow has been reduced at home. Reports good compliance
+with cardiac medications. Endorses 2-pillow orthopnea (new since discharge).
+
+================================================================================
+ACTIVE PROBLEM LIST
+================================================================================
+(See full problem list in inpatient discharge summary)
+Primary focus this visit:
+1.  Chronic Obstructive Pulmonary Disease with acute exacerbation  ICD-10: J44.1
+2.  Atherosclerotic Heart Disease (post-PCI stable)                ICD-10: I25.10
+3.  Hypertension                                                   ICD-10: I10
+4.  Type 2 Diabetes Mellitus                                       ICD-10: E11.9
+
+================================================================================
+EXAMINATION FINDINGS
+================================================================================
+General     : Alert, mild respiratory distress, sitting forward slightly
+Vitals      : BP 136/82, HR 88, RR 22, SpO2 91% on RA (drops to 88% on exertion)
+Lungs       : Diffuse expiratory wheeze bilaterally, prolonged expiratory phase,
+              decreased air movement at bases; no crackles
+Cardiac     : Regular rate and rhythm; no new murmurs
+Extremities : 1+ bilateral ankle edema (stable from discharge)
+
+================================================================================
+SPIROMETRY (Performed in office today – CPT 94060)
+================================================================================
+  FEV1 / FVC ratio : 0.58  (below 0.70 threshold → obstructive pattern)
+  FEV1             : 54% of predicted  (Moderate–Severe category)
+  FVC              : 68% of predicted
+  Post-bronchodilator FEV1 improvement: 8% (minimal reversibility)
+GOLD Classification: GOLD Stage III (Severe COPD)
+
+================================================================================
+ASSESSMENT
+================================================================================
+1.  COPD ACUTE EXACERBATION (AECOPD) – Moderate severity
+    Worsening bronchospasm, productive purulent cough, reduced SpO2 to 91%.
+    Precipitant likely viral URI with secondary bacterial superinfection.
+    Initiate oral steroid burst and short antibiotic course.
+
+2.  Oxygen supplementation: SpO2 dipping to 88% on exertion – borderline
+    indication for supplemental O2. Will reassess after acute treatment course.
+
+================================================================================
+PLAN
+================================================================================
+1.  Albuterol nebulization 2.5 mg administered in office – good response
+    (SpO2 improved to 95%)
+2.  Prednisone 40 mg PO daily x 5 days (steroid burst)
+3.  Azithromycin 250 mg PO daily x 5 days (atypical bacterial coverage)
+4.  Tiotropium 18 mcg daily (continue; add spacer counseling)
+5.  Albuterol inhaler PRN – escalate to scheduled Q4H during acute phase
+6.  Pulmonary rehabilitation referral placed
+7.  Home O2 assessment: order ambulatory pulse oximetry for 1 week
+8.  Follow-up in 6 weeks or sooner if symptoms worsen / SpO2 < 88% at rest
+9.  Notify PCP and cardiologist of AECOPD exacerbation and steroid course
+    (note: corticosteroids may transiently worsen glucose control – alert
+    endocrinology for diabetes monitoring)
+
+================================================================================
+ELECTRONICALLY SIGNED
+================================================================================
+Dr. Samuel Oduya, MD – Pulmonology
+Northwestern Memorial Hospital Outpatient Clinic
+2026-04-08 14:30 CST
+================================================================================
+NOTE: This document is synthetic healthcare data generated for the
+SynapseCortex AI Hackathon. All names, NPI numbers, and clinical values
+are fabricated for demonstration purposes only.
+================================================================================

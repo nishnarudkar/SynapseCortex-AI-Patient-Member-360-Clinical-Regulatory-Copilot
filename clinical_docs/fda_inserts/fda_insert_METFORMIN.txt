@@ -1,0 +1,247 @@
+================================================================================
+SYNAPSECORTEX AI – FDA DRUG PACKAGE INSERT (SYNTHETIC REFERENCE)
+================================================================================
+DRUG NAME    : Metformin Hydrochloride Tablets
+BRAND NAMES  : Glucophage®, Glumetza®, Fortamet®, Riomet®
+DRUG CLASS   : Biguanide – Antidiabetic Agent
+NDC (sample) : 0093-1048-01 (Metformin HCl 1000 mg, 100-tablet bottle)
+NDA          : NDA 021202 (reference)
+PREPARED FOR : SynapseCortex AI Clinical Regulatory Copilot – Hackathon Demo
+================================================================================
+DOCUMENT TYPE: Synthesized FDA-style Package Insert for AI Parsing
+NOTE: This insert is a synthetic educational document modeled on publicly
+available FDA labeling conventions. It is NOT an official FDA document.
+================================================================================
+
+SECTION 1 – INDICATIONS AND USAGE
+──────────────────────────────────
+Metformin hydrochloride is indicated as an adjunct to diet and exercise to
+improve glycemic control in adults and pediatric patients ≥ 10 years of age
+with type 2 diabetes mellitus.
+
+Metformin is NOT indicated for treatment of type 1 diabetes mellitus or for
+patients with diabetic ketoacidosis.
+
+SECTION 2 – DOSAGE AND ADMINISTRATION
+───────────────────────────────────────
+Starting Dose (Adults):
+  Immediate-release : 500 mg twice daily OR 850 mg once daily with meals.
+  Extended-release  : 500–1000 mg once daily with the evening meal.
+
+Maximum Dose:
+  Immediate-release : 2550 mg/day in divided doses.
+  Extended-release  : 2000–2500 mg/day depending on formulation.
+
+Titration:
+  Increase dose in increments of 500 mg weekly or 850 mg every 2 weeks as
+  tolerated to reduce GI adverse effects.
+
+Renal Impairment Dosing:
+  eGFR ≥ 60 mL/min/1.73 m²     : No dose adjustment required.
+  eGFR 45–59 mL/min/1.73 m²    : Use with caution; benefit-risk assessment
+                                   required; monitor renal function every 3–6 months.
+  eGFR 30–44 mL/min/1.73 m²    : [⚠️ CAUTION] Use not recommended; if prescribed,
+                                   closely monitor renal function, withhold if
+                                   eGFR falls below 30.
+  eGFR < 30 mL/min/1.73 m²     : [❌ CONTRAINDICATED] Do not initiate or continue.
+
+SECTION 3 – DOSAGE FORMS AND STRENGTHS
+────────────────────────────────────────
+  Tablets (immediate-release) : 500 mg, 850 mg, 1000 mg
+  Tablets (extended-release)  : 500 mg, 750 mg, 1000 mg
+  Oral Solution               : 500 mg/5 mL
+
+SECTION 4 – CONTRAINDICATIONS
+───────────────────────────────
+Metformin is CONTRAINDICATED in patients with:
+
+1.  RENAL IMPAIRMENT
+    Estimated GFR (eGFR) < 30 mL/min/1.73 m².
+    Rationale: Metformin is renally excreted almost exclusively unchanged.
+    Renal impairment reduces clearance, leading to accumulation and markedly
+    increased risk of lactic acidosis.
+
+2.  ACUTE OR CHRONIC METABOLIC ACIDOSIS, including diabetic ketoacidosis.
+
+3.  KNOWN HYPERSENSITIVITY to metformin hydrochloride or any component of the
+    formulation (rare; manifests as urticaria, angioedema).
+
+4.  RADIOLOGIC CONTRAST PROCEDURES (TEMPORARY):
+    Withhold metformin at the time of or prior to iodinated contrast procedures
+    in patients with eGFR < 60 mL/min/1.73 m²; reassess renal function 48 hours
+    after procedure before restarting.
+
+SECTION 5 – WARNINGS AND PRECAUTIONS
+──────────────────────────────────────
+5.1  LACTIC ACIDOSIS (Black Box Warning)
+     ─────────────────────────────────────
+     ⚠️  BLACK BOX WARNING: LACTIC ACIDOSIS
+
+     Post-marketing cases of metformin-associated lactic acidosis have resulted
+     in death, hypothermia, hypotension, and resistant bradyarrhythmias.
+     Onset is often subtle, with non-specific symptoms such as malaise, myalgia,
+     respiratory distress, somnolence, and abdominal pain.
+
+     Risk factors include:
+       - Renal impairment (most significant risk factor)
+       - Hepatic impairment
+       - Congestive heart failure requiring pharmacologic intervention
+       - Concomitant use of carbonic anhydrase inhibitors (topiramate, zonisamide,
+         acetazolamide) – increases risk of metabolic acidosis
+       - Excessive alcohol intake
+       - Advanced age (particularly ≥ 65 years)
+       - Dehydration or sepsis
+       - Radiologic contrast studies
+
+     ACTION IF SUSPECTED:
+       Discontinue metformin immediately. Hospitalize patient. Institute supportive
+       measures. Metformin and lactate can be removed by hemodialysis.
+
+     HEDIS / CLINICAL COPILOT ALERT TRIGGER:
+       Flag for pharmacovigilance review when:
+         - Active metformin order + eGFR < 45 (HIGH RISK)
+         - Active metformin order + eGFR < 30 (CONTRAINDICATED – ALERT REQUIRED)
+
+5.2  RENAL IMPAIRMENT
+     Assess eGFR before initiating metformin and at least annually thereafter.
+     In patients at increased risk of renal impairment (elderly, those with
+     cardiovascular disease, or concomitant nephrotoxic drugs), assess eGFR
+     more frequently (every 3–6 months).
+
+5.3  HEPATIC IMPAIRMENT
+     Avoid metformin in patients with clinical or laboratory evidence of hepatic
+     disease. Impaired lactate metabolism increases risk of lactic acidosis.
+
+5.4  VITAMIN B12 DEFICIENCY
+     Long-term use of metformin is associated with a reduction in vitamin B12
+     absorption. Annual measurement of hematologic parameters is advised; check
+     B12 levels if anemia or peripheral neuropathy develops.
+
+5.5  HYPOGLYCEMIA
+     Metformin alone rarely causes symptomatic hypoglycemia. Risk increases when
+     combined with insulin secretagogues (sulfonylureas, meglitinides) or insulin.
+
+SECTION 6 – ADVERSE REACTIONS
+───────────────────────────────
+Most Common (≥ 5%):
+  Gastrointestinal: diarrhea (53%), nausea/vomiting (26%), flatulence (12%),
+  abdominal discomfort (6%), indigestion (7%), asthenia (9%)
+  (GI effects are dose-related and typically resolve with slower titration)
+
+Serious (Postmarketing):
+  - Lactic acidosis (see Black Box Warning)
+  - Acute pancreatitis (rare)
+  - Megaloblastic anemia (due to B12 deficiency with prolonged use)
+
+SECTION 7 – DRUG INTERACTIONS
+───────────────────────────────
+7.1  Carbonic Anhydrase Inhibitors
+     Topiramate, zonisamide, acetazolamide, and dichlorphenamide may reduce serum
+     bicarbonate and increase risk of metformin-associated lactic acidosis.
+     Use with caution; consider more frequent metabolic monitoring.
+
+7.2  Alcohol
+     Alcohol potentiates the effect of metformin on lactate metabolism.
+     Advise patients to avoid excessive alcohol intake.
+
+7.3  Iodinated Contrast Media
+     Intravascular administration of iodinated contrast can lead to contrast-
+     induced acute kidney injury, which may impair metformin clearance. Withhold
+     metformin before and 48 hours after the procedure.
+
+7.4  Drugs that Reduce Renal Function or Compete for Tubular Secretion
+     Cationic drugs (cimetidine, amiloride, digoxin, morphine, procainamide,
+     quinidine, quinine, ranitidine, triamterene, trimethoprim, vancomycin)
+     compete with metformin for tubular secretion and may increase metformin
+     plasma concentrations.
+
+7.5  Insulin / Insulin Secretagogues
+     Concomitant use with insulin or sulfonylureas increases hypoglycemia risk.
+     Lower doses of the concomitant agent may be required.
+
+SECTION 8 – USE IN SPECIFIC POPULATIONS
+─────────────────────────────────────────
+8.1  Pregnancy
+     Limited data available. Poorly controlled diabetes in pregnancy carries
+     significant risks. Use during pregnancy only if clearly needed; discuss
+     risk-benefit with patient.
+
+8.2  Lactation
+     Small amounts present in breast milk. Consider developmental benefits of
+     breastfeeding and risks to the infant.
+
+8.4  Pediatric Use
+     Safety and effectiveness established in pediatric patients ≥ 10 years with
+     type 2 diabetes (immediate-release only). Extended-release: safety in
+     pediatrics not established.
+
+8.5  Geriatric Use
+     Age-related decline in renal function may increase risk of lactic acidosis.
+     Monitor renal function more frequently. Titrate conservatively. Do not
+     initiate in patients > 80 years unless renal function confirms eGFR ≥ 45.
+
+SECTION 10 – OVERDOSAGE
+─────────────────────────
+Overdose of metformin has led to lactic acidosis (see Section 5.1). Metformin
+is dialyzable with a clearance up to 170 mL/min under good hemodynamic
+conditions. Prompt hemodialysis is recommended for management of overdose.
+
+SECTION 11 – DESCRIPTION
+──────────────────────────
+Metformin hydrochloride is a white to off-white crystalline compound with the
+empirical formula C4H11N5·HCl and a molecular weight of 165.63. It is freely
+soluble in water, slightly soluble in ethanol, and practically insoluble in
+acetone, ether, and chloroform.
+
+SECTION 12 – CLINICAL PHARMACOLOGY
+─────────────────────────────────────
+12.1 Mechanism of Action
+     Metformin decreases hepatic glucose production (gluconeogenesis and
+     glycogenolysis), decreases intestinal absorption of glucose, and improves
+     insulin sensitivity by increasing peripheral glucose uptake and utilization.
+
+12.3 Pharmacokinetics
+     Bioavailability (fasting) : 50–60%
+     Tmax                      : 2.5 hours (IR)
+     Protein binding           : Negligible
+     Metabolism                : Not metabolized; excreted unchanged
+     Elimination               : Renal tubular secretion (primary route)
+     Half-life (plasma)        : ~6.2 hours
+     Half-life (blood)         : ~17.6 hours
+     Renal clearance           : ~3.5× greater than creatinine clearance
+     CYP interactions          : None (not a CYP substrate/inhibitor/inducer)
+
+================================================================================
+SYNAPSECORTEX AI CLINICAL COPILOT – REGULATORY ALERT SUMMARY
+================================================================================
+DRUG          : Metformin Hydrochloride
+HERO CASE     : Hero Patient 1 – Robert Callahan (HERO-PT-001)
+ALERT TYPE    : ⚠️  SAFETY VIOLATION – CONTRAINDICATION ACTIVE
+
+PATIENT DATA  :
+  eGFR        : 38 mL/min  (CKD Stage 3 – HIGH RISK ZONE: 30–44 mL/min)
+  Creatinine  : 2.4 mg/dL  [H]
+  Active Rx   : Metformin 1000 mg PO BID (2000 mg/day)
+
+FDA GUIDELINE MATCH:
+  Section 4: Contraindications – eGFR < 30 → Do not use
+  Section 5.1: eGFR 30–44 → Use not recommended; if continued, CLOSE MONITORING
+  Section 5.2: Renal function assessment required every 3–6 months
+
+COPILOT RECOMMENDATION:
+  1.  HOLD Metformin – notify prescribing physician immediately
+  2.  Evaluate alternative glycemic agents with renal-safe profiles:
+      - Linagliptin (DPP-4 inhibitor – no renal dose adjustment required)
+      - Dulaglutide (GLP-1 RA – no renal adjustment needed for T2DM)
+      - Avoid SGLT2 inhibitors if eGFR < 45
+  3.  Recheck eGFR, creatinine, and serum lactate at next visit
+  4.  Payer alert: BlueCross PPO – prior authorization may be needed for
+      alternative agents; alert transmitted to care management team
+
+SEVERITY      : HIGH
+AUTO-ESCALATE : YES – Pharmacovigilance queue + Prescriber notification
+================================================================================
+NOTE: This document is a synthetic FDA-style package insert created for the
+SynapseCortex AI Hackathon. It is modeled on public FDA labeling standards
+and is NOT an official FDA document. Do not use for clinical decisions.
+================================================================================

@@ -1,0 +1,148 @@
+================================================================================
+SYNAPSECORTEX AI – CLINICAL ENCOUNTER NOTE
+================================================================================
+FACILITY     : Northwestern Memorial Hospital, Chicago, IL
+NOTE TYPE    : Inpatient Discharge Summary – Cardiology
+ENCOUNTER ID : (see SYNAPSE_HEALTH.RAW.ENCOUNTERS – Encounter 1 of 3)
+PATIENT ID   : HERO-PT-003
+ADMISSION    : 2026-01-15
+DISCHARGE    : 2026-01-20  (LOS: 5 days)
+ATTENDING    : Dr. Anita Krishnamurthy, MD (Interventional Cardiology)
+NPI          : [see encounter record]
+================================================================================
+
+PATIENT INFORMATION
+-------------------
+Name          : James Whitfield
+Date of Birth : 1955  |  Age: 71
+Gender        : Male
+Insurance     : Medicare Advantage  #MA-55991100
+PCP           : On file
+
+================================================================================
+REASON FOR ADMISSION
+================================================================================
+Mr. Whitfield, a 71-year-old male with known coronary artery disease, Type 2
+diabetes, CKD Stage 3, COPD, and hypertension, presented via the Emergency
+Department on 2026-01-15 with chest pain (8/10), diaphoresis, and exertional
+dyspnea over the preceding 48 hours. EKG showed ST depression in leads V4–V6.
+Troponin I was elevated at 2.1 ng/mL. Patient was admitted for evaluation and
+management of NSTEMI vs. unstable angina.
+
+================================================================================
+ACTIVE PROBLEM LIST (Comprehensive – Multi-chronic)
+================================================================================
+1.  Atherosclerotic Heart Disease, native coronary artery  ICD-10: I25.10
+2.  Essential Hypertension                                  ICD-10: I10
+3.  Type 2 Diabetes Mellitus, uncontrolled                  ICD-10: E11.9
+4.  Chronic Kidney Disease, Stage 3 (eGFR 42)              ICD-10: N18.3
+5.  Chronic Obstructive Pulmonary Disease                   ICD-10: J44.1
+6.  Hyperlipidemia                                          ICD-10: E78.5
+7.  Anemia of Chronic Disease                               ICD-10: D63.1
+8.  Heart Failure with reduced EF (HFrEF, EF = 38%)        ICD-10: I50.22
+
+================================================================================
+HOSPITAL COURSE
+================================================================================
+DAY 1 (2026-01-15):
+  Patient admitted to cardiac telemetry unit. IV heparin infusion initiated.
+  Cardiology consult placed. Dual antiplatelet therapy (aspirin 325 mg loading
+  dose + clopidogrel 600 mg loading dose) administered. IV fluids held given
+  reduced EF and CKD. BMP notable for creatinine 2.1, K+ 5.6, eGFR 42.
+
+DAY 2 (2026-01-16):
+  Left heart catheterization performed (CPT 93454). Findings: 85% stenosis LAD
+  proximal, 60% stenosis RCA mid-segment. PCI with drug-eluting stent placed in
+  LAD. Procedure tolerated without complication. Post-procedure creatinine
+  monitoring initiated given CKD (contrast nephropathy protocol).
+
+DAY 3–4 (2026-01-17–18):
+  Patient stable on telemetry. Repeat BMP: creatinine 2.4 (mild post-contrast
+  rise, expected). Fluid balance managed carefully. Furosemide 40 mg IV given
+  for 1+ bilateral pitting edema. Pulmonology consulted for COPD management;
+  spirometry scheduled as outpatient. HbA1c resulted at 8.4% – diabetes
+  management optimized; insulin sliding scale initiated.
+
+DAY 5 (2026-01-19–20):
+  Patient ambulatory with PT/OT. BP 130/78 on oral medications. Creatinine
+  trending back toward 2.1. Patient educated on discharge medications, cardiac
+  diet, fluid restriction (2L/day), and smoking cessation (ex-smoker, quit 2018).
+
+================================================================================
+LABORATORY RESULTS (Inpatient – Key Values)
+================================================================================
+Test                              Result    Units     Reference      Flag
+───────────────────────────────────────────────────────────────────────────────
+Troponin I (admission)            2.1       ng/mL     < 0.04         [HH]
+Creatinine (admission)            2.1       mg/dL     0.6–1.2        [H]
+eGFR (CKD-EPI)                   42        mL/min    ≥ 60           [L]
+Potassium (admission)             5.6       mEq/L     3.5–5.0        [H]
+HbA1c                             8.4       %         4.0–5.6        [H]
+Hemoglobin                        10.2      g/dL      12.0–17.5      [L]
+LDL Cholesterol                   142       mg/dL     < 70           [H]
+Total Cholesterol                 235       mg/dL     < 200          [H]
+───────────────────────────────────────────────────────────────────────────────
+
+================================================================================
+HIGH-RISK PATIENT FLAG
+================================================================================
+⚠️  SYNAPSECORTEX RISK STRATIFICATION: TIER 1 – CRITICAL HIGH RISK
+
+RISK FACTORS IDENTIFIED:
+  1.  Multi-chronic condition burden (8 active diagnoses, 5 cardiovascular risk
+      factors simultaneously present)
+  2.  Uncontrolled diabetes (HbA1c 8.4%) contributing to accelerated CAD
+  3.  CKD Stage 3 limiting therapeutic options (renal dosing required for
+      multiple medications; contrast nephropathy monitoring required)
+  4.  Acute cardiac event (NSTEMI / PCI performed this admission)
+  5.  Reduced ejection fraction (EF 38%) – new finding, increases mortality risk
+  6.  Polypharmacy risk: 9 active medications at discharge; drug-drug interaction
+      monitoring required
+  7.  Year-to-date total claims: $51,755.00 (EXCEEDS $50,000 threshold)
+      – qualifies for complex care management program enrollment
+
+RECOMMENDED ACTIONS:
+  □  Enroll in Complex Case Management (CCM) with dedicated care coordinator
+  □  Monthly telephonic check-in with PCP for first 90 days post-discharge
+  □  Cardiology follow-up within 7 days
+  □  Nephrology follow-up within 14 days (post-contrast eGFR trending)
+  □  Diabetes management: endocrinology referral
+  □  COPD: pulmonology follow-up + spirometry
+  □  Pharmacy medication reconciliation – polypharmacy review
+
+================================================================================
+DISCHARGE MEDICATIONS
+================================================================================
+1.  Aspirin 81 mg PO daily (antiplatelet – lifelong post-PCI)
+2.  Clopidogrel 75 mg PO daily (dual antiplatelet x 12 months post-PCI)
+3.  Atorvastatin 80 mg PO nightly (high-intensity statin – post-ACS protocol)
+4.  Carvedilol 25 mg PO BID (beta-blocker – HFrEF)
+5.  Furosemide 40 mg PO daily (diuresis – HFrEF / edema management)
+6.  Lisinopril 10 mg PO daily (ACEi – HFrEF / nephroprotection)
+7.  Amlodipine 5 mg PO daily (CCB – hypertension)
+8.  Insulin glargine 20 units SQ nightly (glycemic control during transition)
+9.  Albuterol inhaler 90 mcg PRN (COPD rescue)
+
+DISCHARGE CONDITION: Stable
+DISCHARGE DISPOSITION: Skilled Nursing Facility (SNF) for PT/OT rehabilitation
+
+================================================================================
+FOLLOW-UP INSTRUCTIONS
+================================================================================
+1.  Cardiology: Dr. Krishnamurthy – within 7 days (2026-01-27)
+2.  Nephrology: within 14 days (repeat BMP / eGFR)
+3.  Primary Care: within 30 days
+4.  Endocrinology: within 30 days
+5.  Pulmonology: within 45 days (+ outpatient spirometry)
+
+================================================================================
+ELECTRONICALLY SIGNED
+================================================================================
+Dr. Anita Krishnamurthy, MD – Interventional Cardiology
+Northwestern Memorial Hospital
+2026-01-20 10:30 CST
+================================================================================
+NOTE: This document is synthetic healthcare data generated for the
+SynapseCortex AI Hackathon. All names, NPI numbers, and clinical values
+are fabricated for demonstration purposes only.
+================================================================================

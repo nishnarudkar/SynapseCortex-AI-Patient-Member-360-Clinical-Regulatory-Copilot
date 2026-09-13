@@ -1,0 +1,146 @@
+================================================================================
+SYNAPSECORTEX AI – CLINICAL ENCOUNTER NOTE
+================================================================================
+FACILITY     : Methodist Healthcare San Antonio
+NOTE TYPE    : Office Visit – Established Patient (Outpatient)
+ENCOUNTER ID : (see SYNAPSE_HEALTH.RAW.ENCOUNTERS)
+PATIENT ID   : HERO-PT-002
+DATE OF VISIT: 2026-08-20
+ATTENDING    : Dr. Marco Delgado, MD (Internal Medicine / Primary Care)
+NPI          : [see encounter record]
+================================================================================
+
+PATIENT INFORMATION
+-------------------
+Name          : Linda Moreno
+Date of Birth : 1964  |  Age: 62
+Gender        : Female
+Insurance     : Aetna HMO  #AE-77221133
+PCP           : Dr. Delgado (current visit)
+
+================================================================================
+REASON FOR VISIT
+================================================================================
+Ms. Moreno presents for routine diabetes management follow-up. She reports
+mild increase in fatigue over the past 4–6 weeks and occasional blurry vision
+in the mornings. She denies polyuria, polydipsia, or lower extremity numbness.
+No new complaints. She states she has been "somewhat compliant" with her
+Metformin regimen. Reports she did not complete labs ordered at her last visit
+in August 2025 because she was "too busy with family."
+
+================================================================================
+ACTIVE PROBLEM LIST
+================================================================================
+1.  Type 2 Diabetes Mellitus without complications               ICD-10: E11.9
+2.  Essential Hypertension                                       ICD-10: I10
+3.  Hyperlipidemia                                               ICD-10: E78.5
+4.  Obesity                                                      ICD-10: E66.9
+
+================================================================================
+CURRENT MEDICATIONS (at time of visit)
+================================================================================
+1.  Metformin 500 mg PO BID
+2.  Glipizide 5 mg PO daily (before breakfast)
+3.  Lisinopril 10 mg PO daily
+4.  Simvastatin 20 mg PO nightly
+
+================================================================================
+VITAL SIGNS
+================================================================================
+Blood Pressure : 138 / 86 mmHg
+Heart Rate     : 82 bpm
+Temperature    : 98.7°F (37.1°C)
+Respiratory    : 16 breaths/min
+Oxygen Sat     : 98% on room air
+Weight         : 198 lbs (89.8 kg)
+BMI            : 33.2
+
+================================================================================
+LABORATORY RESULTS (collected 2026-08-20, resulted 2026-08-21)
+================================================================================
+Test                              Result    Units     Reference      Flag
+───────────────────────────────────────────────────────────────────────────────
+HDL Cholesterol                   38        mg/dL     40–60          [L]
+LDL Cholesterol                   128       mg/dL     < 100          [H]
+Total Cholesterol                 218       mg/dL     < 200          [H]
+───────────────────────────────────────────────────────────────────────────────
+HbA1c (Hemoglobin A1c)            NOT ORDERED / NOT RESULTED AT THIS VISIT
+───────────────────────────────────────────────────────────────────────────────
+
+HISTORICAL HbA1c (for reference):
+  2025-07-11   HbA1c = 7.8%   [H]   (Quest Diagnostics – LOINC 4548-4)
+  [No subsequent HbA1c results on file]
+
+================================================================================
+ASSESSMENT
+================================================================================
+1.  Type 2 Diabetes Mellitus – INADEQUATELY MONITORED
+    Last HbA1c was 7.8% on 2025-07-11, which is above target (< 7.0% per ADA
+    guidelines for this patient's age and comorbidity profile). It has now been
+    approximately 14 months since the last HbA1c measurement. This represents a
+    significant care gap per ADA and HEDIS quality measure specifications (NQF
+    0059 – HbA1c testing at least annually for diabetes patients).
+
+2.  Hyperlipidemia – UNDERTREATED
+    LDL of 128 mg/dL is significantly above the target of < 70 mg/dL for a
+    diabetic patient. Simvastatin dose and/or switch to high-intensity statin
+    should be considered.
+
+3.  Hypertension – BORDERLINE CONTROLLED
+    BP 138/86 – slightly above target of < 130/80 for diabetic patients per ACC
+    / AHA guidelines.
+
+================================================================================
+⚠️  CARE GAP ALERT – IDENTIFIED AT THIS ENCOUNTER
+================================================================================
+QUALITY MEASURE GAP DETECTED: HbA1c MONITORING OVERDUE
+
+This patient has Type 2 Diabetes Mellitus (E11.9) and has NOT had a documented
+HbA1c result in 14 months (last result: 2025-07-11).
+
+According to:
+  - ADA Standards of Care in Diabetes 2026: HbA1c should be measured at least
+    twice per year in patients meeting treatment goals; quarterly for those not
+    at goal or with therapy changes.
+  - HEDIS Measure CDC (NQF 0059): Comprehensive Diabetes Care – HbA1c Testing
+    requires at least one HbA1c test in the measurement year.
+
+CLINICAL RISK:
+  - Without current HbA1c data, glycemic control cannot be assessed
+  - Risk of undetected deterioration, potential for retinopathy, neuropathy,
+    nephropathy progression
+  - Patient's last known HbA1c (7.8%) was above target; likely worsened without
+    monitoring or treatment adjustment
+
+RECOMMENDED ACTIONS:
+  □  ORDER HbA1c today (STAT or routine) – patient counseled and agreed
+  □  Schedule dedicated diabetes management visit in 3 months
+  □  Refer to diabetes education program (DSMES)
+  □  Consider intensification of oral antidiabetic regimen pending HbA1c result
+
+This care gap has been flagged in the SynapseCortex Clinical Copilot and
+reported to the Aetna HMO population health dashboard for outreach coordination.
+
+================================================================================
+PLAN
+================================================================================
+1.  ORDER HbA1c today – patient verbally agreed at end of visit. Lab slip given.
+    Patient to complete draw at LabCorp within 7 days.
+2.  Switch Simvastatin 20 mg → Rosuvastatin 20 mg to intensify lipid lowering.
+3.  Continue Metformin 500 mg BID and Glipizide 5 mg. Re-evaluate after HbA1c.
+4.  Dietary counseling referral: ADA meal plan, weight management.
+5.  Review eye exam status at next visit – patient unsure of last ophthalmology
+    visit (possible additional care gap – retinal screening).
+6.  Follow-up in 6–8 weeks after lab results received.
+
+================================================================================
+ELECTRONICALLY SIGNED
+================================================================================
+Dr. Marco Delgado, MD – Internal Medicine
+Methodist Healthcare San Antonio
+2026-08-20 15:00 CST
+================================================================================
+NOTE: This document is synthetic healthcare data generated for the
+SynapseCortex AI Hackathon. All names, NPI numbers, and clinical values
+are fabricated for demonstration purposes only.
+================================================================================
