@@ -1,0 +1,43 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Virtual environments ───────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Environment / secrets ──────────────────────────────────────────────────────
+.env
+.env.*
+*.key
+*.pem
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Generated data (re-created by generate_synthetic_data.py) ─────────────────
+# Initial seed CSVs are committed once for reproducibility.
+# Subsequent re-runs overwrite them locally; only commit intentional refreshes.
+# Uncomment the lines below to exclude output CSVs entirely:
+# data_generator/output/
