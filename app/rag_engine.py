@@ -144,6 +144,10 @@ class Patient360Context:
     care_gap_status:         str
     drug_safety_flag:        str | None
     view_reference_date:     str
+    # Optional extended fields (may not be present in all snapshot versions)
+    total_lab_results:       int = 0
+    claim_count:             int = 0
+    last_claim_date:         str | None = None
 
 
 @dataclass
@@ -297,8 +301,8 @@ class ClinicalCopilot:
                 ACTIVE_MEDICATIONS_LIST,
                 ACTIVE_MEDICATION_COUNT,
                 TOTAL_CLAIMS_COST,
-                TO_VARCHAR(LAST_HBAC1_DATE)         AS LAST_HBAC1_DATE,
-                LAST_HBAC1_VALUE,
+                TO_VARCHAR(LAST_HBA1C_DATE)         AS LAST_HBA1C_DATE,
+                LAST_HBA1C_VALUE,
                 LAST_EGFR_VALUE,
                 LAST_CREATININE_VALUE,
                 ALL_DX_CODES,
@@ -311,7 +315,10 @@ class ClinicalCopilot:
                 RISK_TIER,
                 CARE_GAP_STATUS,
                 DRUG_SAFETY_FLAG,
-                TO_VARCHAR(VIEW_REFERENCE_DATE)     AS VIEW_REFERENCE_DATE
+                TO_VARCHAR(VIEW_REFERENCE_DATE)     AS VIEW_REFERENCE_DATE,
+                COALESCE(TOTAL_LAB_RESULTS, 0)      AS TOTAL_LAB_RESULTS,
+                COALESCE(CLAIM_COUNT, 0)            AS CLAIM_COUNT,
+                TO_VARCHAR(LAST_CLAIM_DATE)         AS LAST_CLAIM_DATE
             FROM {PATIENT_SNAPSHOT_TABLE}
             WHERE PATIENT_ID = '{patient_id}'
             LIMIT 1
@@ -331,8 +338,8 @@ class ClinicalCopilot:
             active_medications_list = r["ACTIVE_MEDICATIONS_LIST"],
             active_medication_count = int(r["ACTIVE_MEDICATION_COUNT"] or 0),
             total_claims_cost       = float(r["TOTAL_CLAIMS_COST"] or 0),
-            last_hba1c_date         = r["LAST_HBAC1_DATE"],
-            last_hba1c_value        = float(r["LAST_HBAC1_VALUE"]) if r["LAST_HBAC1_VALUE"] else None,
+            last_hba1c_date         = r["LAST_HBA1C_DATE"],
+            last_hba1c_value        = float(r["LAST_HBA1C_VALUE"]) if r["LAST_HBA1C_VALUE"] else None,
             last_egfr_value         = float(r["LAST_EGFR_VALUE"])  if r["LAST_EGFR_VALUE"]  else None,
             last_creatinine_value   = float(r["LAST_CREATININE_VALUE"]) if r["LAST_CREATININE_VALUE"] else None,
             all_dx_codes            = r["ALL_DX_CODES"],
@@ -346,6 +353,9 @@ class ClinicalCopilot:
             care_gap_status         = r["CARE_GAP_STATUS"]         or "NO GAP",
             drug_safety_flag        = r["DRUG_SAFETY_FLAG"],
             view_reference_date     = r["VIEW_REFERENCE_DATE"]     or "",
+            total_lab_results       = int(r.get("TOTAL_LAB_RESULTS") or 0),
+            claim_count             = int(r.get("CLAIM_COUNT") or 0),
+            last_claim_date         = r.get("LAST_CLAIM_DATE"),
         )
 
     # ── Step 2: Enrich search query with patient clinical context ────────────
@@ -432,7 +442,7 @@ class ClinicalCopilot:
                 )
                 for row in result.results
             ]
-            warning = result.warning  # None if no warnings from search service
+            warning = getattr(result, 'warning', None)  # attribute varies by SDK version
             logger.info(
                 "Cortex Search returned %d chunks (warning=%s)",
                 len(chunks), warning,
@@ -540,26 +550,47 @@ class ClinicalCopilot:
     # ── Step 5: Call CORTEX.COMPLETE ─────────────────────────────────────────
     def _call_complete(self, messages: list[dict[str, str]]) -> str:
         """
-        Invoke SNOWFLAKE.CORTEX.COMPLETE via the Python helper.
+        Invoke SNOWFLAKE.CORTEX.COMPLETE via SQL (works with all auth methods).
         Returns the assistant's response as a plain string.
         """
+        import json as _json
+
         logger.info(
             "Calling CORTEX.COMPLETE | model=%s | prompt_chars=%d",
             CORTEX_LLM_MODEL,
             sum(len(m["content"]) for m in messages),
         )
         try:
-            response: str = Complete(
-                model    = CORTEX_LLM_MODEL,
-                messages = messages,
-                options  = {
-                    "temperature": LLM_TEMPERATURE,
-                    "max_tokens":  LLM_MAX_TOKENS,
-                },
-                session  = self._session,
-            )
-            logger.info("CORTEX.COMPLETE returned %d chars", len(response))
-            return response.strip()
+            # Serialize messages to JSON string for the SQL call
+            messages_json = _json.dumps(messages, ensure_ascii=False)
+            # Escape single quotes for SQL string literal
+            messages_escaped = messages_json.replace("'", "\\'")
+
+            sql = f"""
+                SELECT SNOWFLAKE.CORTEX.COMPLETE(
+                    '{CORTEX_LLM_MODEL}',
+                    PARSE_JSON($${messages_json}$$),
+                    {{
+                        'temperature': {LLM_TEMPERATURE},
+                        'max_tokens': {LLM_MAX_TOKENS}
+                    }}
+                ) AS answer
+            """
+            rows = self._session.sql(sql).collect()
+            if rows and rows[0]["ANSWER"]:
+                result = str(rows[0]["ANSWER"]).strip()
+                # The SQL CORTEX.COMPLETE returns a JSON string — extract the message text
+                try:
+                    parsed = _json.loads(result)
+                    # Standard response shape: {"choices": [{"messages": "<text>"}]}
+                    result = parsed["choices"][0].get("messages", result)
+                except (KeyError, IndexError, TypeError, _json.JSONDecodeError):
+                    # If it's already plain text or unexpected shape, use as-is
+                    if result.startswith('"') and result.endswith('"'):
+                        result = _json.loads(result)
+                logger.info("CORTEX.COMPLETE returned %d chars", len(result))
+                return result.strip()
+            return "Insufficient evidence."
 
         except Exception as exc:
             logger.error("CORTEX.COMPLETE failed: %s", exc, exc_info=True)
@@ -579,7 +610,7 @@ def print_result(result: CopilotResult) -> None:
     print(f"Question     : {result.user_query}")
     print(f"Model        : {result.model_used}")
     if result.warning:
-        print(f"⚠  Warning   : {result.warning}")
+        print(f"WARNING      : {result.warning}")
     print()
 
     if result.patient_context:
@@ -596,9 +627,9 @@ def print_result(result: CopilotResult) -> None:
         print(f"  [{i}] {c.file_name} (page {c.page_number})")
     print()
 
-    print("─" * 80)
+    print("-" * 80)
     print("COPILOT ANSWER")
-    print("─" * 80)
+    print("-" * 80)
     print(result.answer)
     print(divider)
 
@@ -616,6 +647,11 @@ if __name__ == "__main__":
         SNOWFLAKE_WAREHOUSE, SNOWFLAKE_DATABASE, SNOWFLAKE_SCHEMA, SNOWFLAKE_ROLE
     """
     import os
+    from pathlib import Path
+    from dotenv import load_dotenv
+
+    # Load .env from project root (one level up from app/)
+    load_dotenv(Path(__file__).parent.parent / ".env")
 
     connection_params = {
         "account":   os.environ.get("SNOWFLAKE_ACCOUNT",   "your_account_here"),
@@ -624,7 +660,7 @@ if __name__ == "__main__":
         "warehouse": os.environ.get("SNOWFLAKE_WAREHOUSE", "SYNAPSE_WH"),
         "database":  os.environ.get("SNOWFLAKE_DATABASE",  "SYNAPSE_HEALTH"),
         "schema":    os.environ.get("SNOWFLAKE_SCHEMA",    "APP"),
-        "role":      os.environ.get("SNOWFLAKE_ROLE",      "SYSADMIN"),
+        "role":      os.environ.get("SNOWFLAKE_ROLE",      "ACCOUNTADMIN"),
     }
 
     copilot = ClinicalCopilot.from_connection_params(connection_params)
