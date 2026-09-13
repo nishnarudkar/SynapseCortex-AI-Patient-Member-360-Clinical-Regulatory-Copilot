@@ -6,26 +6,28 @@
 # Install:
 #   pip install -r requirements.txt
 #
-# Python version: >= 3.10
+# Python version: >= 3.10  (tested on 3.13)
 # =============================================================================
 
 # ── Data generation (data_generator/generate_synthetic_data.py) ──────────────
 faker==24.0.0
-pandas==2.2.2
+pandas==2.2.3                       # 2.2.3+ has cp313 wheels; 2.2.2 did not
 
 # ── Snowflake Snowpark (app/rag_engine.py – session, SQL execution) ───────────
-snowflake-snowpark-python==1.23.0
+# 1.23.0 required Python <3.12; 1.35.0+ supports Python 3.13
+snowflake-snowpark-python==1.55.0
 
 # ── Snowflake Cortex Python helpers (Complete() function) ────────────────────
-# Included inside snowflake-snowpark-python >= 1.15; listed explicitly
-# for clarity and to pin the version used during development.
-snowflake-ml-python==1.6.4
+# 1.6.4 required Python <3.13; 2.0.0 is the first release supporting Python 3.13
+snowflake-ml-python==2.0.0
 
 # ── Snowflake Core SDK (Root, Cortex Search svc.search()) ────────────────────
-snowflake-core==0.10.0
+# 0.10.0 required Python ==3.8.*; 1.0.0+ supports Python 3.13
+snowflake-core==1.13.1
 
 # ── SnowSQL / connector (standalone external connections) ────────────────────
-snowflake-connector-python==3.10.1
+# Pulled in transitively by snowpark above; pinned here for explicitness
+snowflake-connector-python==4.7.3
 
 # ── Standard utilities ────────────────────────────────────────────────────────
 python-dotenv==1.0.1        # load SNOWFLAKE_* env vars from a .env file
