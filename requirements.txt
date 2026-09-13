@@ -29,3 +29,8 @@ snowflake-connector-python==3.10.1
 
 # ── Standard utilities ────────────────────────────────────────────────────────
 python-dotenv==1.0.1        # load SNOWFLAKE_* env vars from a .env file
+
+# ── Streamlit (app/app.py – local testing only) ───────────────────────────────
+# Streamlit in Snowflake bundles its own Streamlit runtime; this pin is only
+# needed when running the app locally outside of Snowsight.
+streamlit==1.35.0

@@ -34,6 +34,7 @@ SynapseCortex AI Patient & Member 360 & Clinical Regulatory Copilot/
 │       └── 04_stage_and_load.sql        ← PUT clinical docs + COPY INTO table loads
 │
 ├── app/
+│   ├── app.py                           ← Streamlit in Snowflake UI (two-tab application)
 │   └── rag_engine.py                    ← Dual-RAG Copilot engine (Snowpark + Cortex)
 │
 ├── data_generator/
@@ -116,6 +117,7 @@ Run scripts **in this exact order**:
 | 8 | `snowflake/ddl/07_validate_cortex_pipeline.sql` | Validate stage + search service |
 | 9 | `snowflake/ddl/08_patient_360_and_copilot.sql` | Build `PATIENT_360_VIEW` + snapshot |
 | 10 | `app/rag_engine.py` | Run Dual-RAG Copilot |
+| 11 | `app/app.py` | Launch Streamlit in Snowflake UI |
 
 ---
 
@@ -235,9 +237,61 @@ cd app
 python rag_engine.py      # runs 3-hero demo using SNOWFLAKE_* env vars
 ```
 
+### 11 — Deploy the Streamlit in Snowflake App
+
+1. In Snowsight, navigate to **Projects → Streamlit → + Streamlit App**
+2. Set:
+   - **Warehouse**: `SYNAPSE_WH`
+   - **Database**: `SYNAPSE_HEALTH`
+   - **Schema**: `APP`
+3. Upload both `app/app.py` and `app/rag_engine.py` to the app's file stage
+4. Set `app.py` as the main file and click **Run**
+
+The app opens with a two-tab layout:
+- **Tab 1 – Patient 360 Dashboard**: metric cards, diagnoses, medications, encounters, lab history, claims
+- **Tab 2 – Clinical & Regulatory Copilot**: chat interface, demo questions, document chunk drawer, Dispatch Care Action panel
+
 ---
 
-## Dual-RAG Copilot Architecture
+## Streamlit Application — UI Layout
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  SIDEBAR                        │  MAIN PANEL                       │
+│  ─────────────────────────────  │  ─────────────────────────────── │
+│  🧠 SynapseCortex AI            │  🧠 SynapseCortex AI Header        │
+│                                 │                                   │
+│  Patient Selector ▼             │  [Tab 1: Patient 360 Dashboard]   │
+│  ⚠️ Hero 1 – Robert Callahan    │  [Tab 2: Clinical Copilot]        │
+│  ⚠️ Hero 2 – Linda Moreno       │                                   │
+│  ⚠️ Hero 3 – James Whitfield    │  TAB 1                            │
+│  ... 47 more patients ...       │  ┌────┬────────┬───────┬───────┐  │
+│                                 │  │Age │Risk    │Claims │Care   │  │
+│  Patient mini-card:             │  │    │Tier 🔴 │Cost   │Gap ⚠️ │  │
+│  Robert Callahan                │  └────┴────────┴───────┴───────┘  │
+│  Age 58 · Male                  │  + Drug Safety card               │
+│  🔴 LOW RISK                    │                                   │
+│  ✅ NO GAP                      │  Diagnoses table                  │
+│                                 │  Medications table (🚨 Metformin) │
+│                                 │  Encounters table                 │
+│                                 │  Lab Results (🟥 abnormals)       │
+│                                 │  Claims expander                  │
+│                                 │                                   │
+│                                 │  TAB 2                            │
+│                                 │  Patient banner + badges          │
+│                                 │  Demo question buttons            │
+│                                 │  Chat history (citations styled)  │
+│                                 │  📄 Document chunk expander       │
+│                                 │  [Chat input box]                 │
+│                                 │  ─────────────────────────────── │
+│                                 │  🚨 Dispatch Care Action panel    │
+│                                 │  Action type + Channel selectors  │
+│                                 │  ⚡ Dispatch Care Action button   │
+│                                 │  📋 Action log expander           │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+
 
 ```
 User Query + Patient ID
