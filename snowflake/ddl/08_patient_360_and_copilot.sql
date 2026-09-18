@@ -89,7 +89,12 @@ claims_agg AS (
                   AND c.DRUG_NAME IS NOT NULL
                  THEN c.DRUG_NAME END,
             ' | '
-        ) WITHIN GROUP (ORDER BY c.DRUG_NAME)              AS active_medications_list,
+        ) WITHIN GROUP (ORDER BY
+            CASE WHEN c.CLAIM_TYPE  = 'Pharmacy'
+                  AND c.CLAIM_STATUS = 'Paid'
+                  AND c.DRUG_NAME IS NOT NULL
+                 THEN c.DRUG_NAME END
+        )                                                   AS active_medications_list,
         MAX(c.CLAIM_DATE)                                   AS last_claim_date
     FROM RAW.CLAIMS c
     GROUP BY c.PATIENT_ID
@@ -324,7 +329,7 @@ SELECT
     DRUG_SAFETY_FLAG,
     TOTAL_CLAIMS_COST,
     ACTIVE_MEDICATION_COUNT,
-    LAST_HBAC1_DATE,
+    LAST_HBA1C_DATE,
     LAST_EGFR_VALUE,
     CHRONIC_CONDITION_COUNT
 FROM TRANSFORMED.PATIENT_360_VIEW
@@ -350,7 +355,7 @@ SELECT
         ELSE '✗ FAIL: Unexpected risk tier for ' || PATIENT_ID
     END AS risk_tier_check,
     CARE_GAP_STATUS,
-    LAST_HBAC1_DATE,
+    LAST_HBA1C_DATE,
     -- Hero 2: Diabetes + HbA1c 14 months ago → MUST be GAP
     CASE
         WHEN PATIENT_ID LIKE 'HERO-PT-002%'

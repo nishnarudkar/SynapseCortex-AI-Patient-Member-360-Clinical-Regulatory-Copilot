@@ -1,0 +1,17 @@
+definition_version: 2
+
+entities:
+  synapsecortex_app:
+    type: streamlit
+    title: "SynapseCortex AI"
+    identifier:
+      name: SYNAPSECORTEX_AI
+      schema: APP
+      database: SYNAPSE_HEALTH
+    main_file: streamlit_app.py
+    query_warehouse: SYNAPSE_WH
+    artifacts:
+      - src: app/app.py
+        dest: streamlit_app.py
+      - src: app/rag_engine.py
+        dest: rag_engine.py

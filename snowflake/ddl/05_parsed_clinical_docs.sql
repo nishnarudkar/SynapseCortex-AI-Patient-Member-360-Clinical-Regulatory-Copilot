@@ -39,7 +39,7 @@ USE WAREHOUSE SYNAPSE_WH;      -- replace with your warehouse name
 CREATE OR REPLACE TABLE TRANSFORMED.PARSED_CLINICAL_DOCS (
 
     -- ── Identity ─────────────────────────────────────────────────────────────
-    DOC_ID          VARCHAR(36)     NOT NULL DEFAULT GEN_RANDOM_UUID()
+    DOC_ID          VARCHAR(36)     NOT NULL DEFAULT UUID_STRING()
                                     COMMENT 'Surrogate PK for each parsed page/chunk row',
 
     -- ── Source traceability ──────────────────────────────────────────────────
@@ -126,14 +126,13 @@ parsed_raw AS (
         sf.stage_file_url,
         sf.last_modified,
         -- LAYOUT mode; no page_split — .txt files return {"content":"..."}
-        PARSE_JSON(
-            AI_PARSE_DOCUMENT(
-                TO_FILE('@RAW.CLINICAL_STAGE', sf.file_name),
-                {
-                    'mode'      : 'LAYOUT'
-                    -- 'page_split': true  ← enable only after converting to PDF/DOCX
-                }
-            )
+        -- AI_PARSE_DOCUMENT already returns OBJECT/VARIANT; PARSE_JSON is not needed
+        AI_PARSE_DOCUMENT(
+            TO_FILE('@RAW.CLINICAL_STAGE', sf.file_name),
+            {
+                'mode'      : 'LAYOUT'
+                -- 'page_split': true  ← enable only after converting to PDF/DOCX
+            }
         )                                           AS parsed_json
     FROM staged_files sf
 ),
@@ -230,11 +229,10 @@ parsed_raw AS (
     SELECT
         sf.file_name,
         sf.stage_file_url,
-        PARSE_JSON(
-            AI_PARSE_DOCUMENT(
-                TO_FILE('@RAW.CLINICAL_STAGE', sf.file_name),
-                { 'mode': 'LAYOUT', 'page_split': true }
-            )
+        -- AI_PARSE_DOCUMENT already returns OBJECT/VARIANT; PARSE_JSON is not needed
+        AI_PARSE_DOCUMENT(
+            TO_FILE('@RAW.CLINICAL_STAGE', sf.file_name),
+            { 'mode': 'LAYOUT', 'page_split': true }
         ) AS parsed_json
     FROM staged_files sf
 ),
@@ -290,3 +288,7 @@ ORDER BY 1, 2;
 
 -- Expected: 8 rows total (one per staged .txt file), all PAGE_NUMBER = 1
 -- After PDF upgrade: multiple rows per doc matching actual page counts
+
+
+
+
