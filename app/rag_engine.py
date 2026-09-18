@@ -51,8 +51,14 @@ from typing import Any
 
 # Snowflake Snowpark + Cortex
 from snowflake.snowpark import Session
-from snowflake.cortex import Complete          # Python helper; returns str
 from snowflake.core import Root                # Cortex Search SDK
+
+# Complete import is optional — only used in older SDK versions
+# Our _call_complete method uses SQL which works in all environments
+try:
+    from snowflake.cortex import Complete
+except ImportError:
+    Complete = None
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
