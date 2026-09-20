@@ -396,7 +396,24 @@ CARE_ACTION_CHANNELS = ["Jira Ticket", "Slack Alert", "Email Notification", "Pag
 # ─────────────────────────────────────────────────────────────────────────────
 @st.cache_resource(show_spinner="Connecting to Snowflake…")
 def get_session():
-    return get_active_session()
+    try:
+        return get_active_session()
+    except Exception:
+        import os
+        from dotenv import load_dotenv
+        from snowflake.snowpark import Session
+
+        load_dotenv()
+        params = {
+            "account":   os.environ.get("SNOWFLAKE_ACCOUNT", "CNWXSKG-MW91931"),
+            "user":      os.environ.get("SNOWFLAKE_USER", "NISHUNARUDKAR"),
+            "password":  os.environ.get("SNOWFLAKE_PASSWORD", "Nadunishant@123"),
+            "warehouse": os.environ.get("SNOWFLAKE_WAREHOUSE", "SYNAPSE_WH"),
+            "database":  os.environ.get("SNOWFLAKE_DATABASE", "SYNAPSE_HEALTH"),
+            "schema":    os.environ.get("SNOWFLAKE_SCHEMA", "APP"),
+            "role":      os.environ.get("SNOWFLAKE_ROLE", "ACCOUNTADMIN"),
+        }
+        return Session.builder.configs(params).create()
 
 
 @st.cache_resource(show_spinner="Initialising Clinical Copilot…")

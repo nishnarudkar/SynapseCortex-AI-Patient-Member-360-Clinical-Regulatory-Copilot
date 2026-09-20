@@ -50,11 +50,17 @@ Healthcare platforms face a structural data challenge: over 80% of critical pati
 
 ## Application Screenshots
 
-### Tab 1 — Patient 360 Dashboard
-![Patient 360 Dashboard](screenshots/patient_360_dashboard.jpg)
+### Tab 1 — Patient 360 Dashboard Metrics & Profile
+![Patient 360 Dashboard Metrics](screenshots/patient_360_dashboard.png)
 
-### Tab 2 — Clinical & Regulatory Copilot
-![Clinical Copilot](screenshots/clinical_copilot.jpg)
+### Tab 1 — Diagnoses, Active Medications & Lab History
+![Patient 360 Diagnoses & Labs](screenshots/patient_360_labs_encounters.png)
+
+### Tab 2 — Evidence-Grounded Clinical Regulatory Copilot
+![Clinical Copilot Chat](screenshots/clinical_copilot_chat.png)
+
+### Tab 2 — Clinical Action Dispatcher & Workflow Panel
+![Clinical Action Dispatcher](screenshots/clinical_action_dispatcher.png)
 
 ---
 
