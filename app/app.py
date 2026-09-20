@@ -42,161 +42,319 @@ st.set_page_config(
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-/* ── Global typography ──────────────────────────────────────────────── */
-html, body, [class*="css"] { font-family: "Inter", "Helvetica Neue", sans-serif; }
+/* ── Google Fonts Import ────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
-/* ── Top header bar ─────────────────────────────────────────────────── */
+/* ── Global Typography & Theme ─────────────────────────────────────── */
+html, body, [class*="css"] {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+    color: #1e293b;
+}
+
+/* ── Main Container Padding ─────────────────────────────────────────── */
+.main .block-container {
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
+    max-width: 1380px;
+}
+
+/* ── Top Header Bar ─────────────────────────────────────────────────── */
 .synapse-header {
-    background: linear-gradient(135deg, #1a1f71 0%, #2563eb 100%);
-    padding: 1.1rem 1.6rem;
-    border-radius: 10px;
-    margin-bottom: 1.4rem;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0369a1 100%);
+    padding: 1.4rem 1.8rem;
+    border-radius: 16px;
+    margin-bottom: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25), 0 8px 10px -6px rgba(15, 23, 42, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.synapse-header-left {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1.1rem;
+}
+.synapse-header-icon {
+    font-size: 2.3rem;
+    background: rgba(255, 255, 255, 0.12);
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 .synapse-header h1 {
     color: #ffffff;
-    font-size: 1.55rem;
-    font-weight: 700;
+    font-size: 1.7rem;
+    font-weight: 800;
     margin: 0;
+    letter-spacing: -0.02em;
 }
 .synapse-header .subtitle {
-    color: #93c5fd;
-    font-size: 0.82rem;
-    margin: 0;
+    color: #38bdf8;
+    font-size: 0.86rem;
+    font-weight: 500;
+    margin-top: 0.15rem;
+    letter-spacing: 0.01em;
+}
+.synapse-header-badges {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+.synapse-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f1f5f9;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    backdrop-filter: blur(6px);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.synapse-tag.active {
+    background: rgba(14, 165, 233, 0.25);
+    border-color: #38bdf8;
+    color: #38bdf8;
 }
 
-/* ── Metric cards ───────────────────────────────────────────────────── */
+/* ── Metric Cards ───────────────────────────────────────────────────── */
 .metric-card {
     background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 1.1rem 1.2rem 0.9rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1.25rem 1.3rem 1.1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+    border-radius: 14px 14px 0 0;
+}
+.metric-card.card-red::before {
+    background: linear-gradient(90deg, #ef4444, #f97316);
+}
+.metric-card.card-amber::before {
+    background: linear-gradient(90deg, #f59e0b, #eab308);
+}
+.metric-card.card-green::before {
+    background: linear-gradient(90deg, #10b981, #059669);
+}
+.metric-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.09), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: #cbd5e1;
 }
 .metric-card .label {
     font-size: 0.72rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .05em;
-    color: #6b7280;
-    margin-bottom: .35rem;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-bottom: 0.45rem;
 }
 .metric-card .value {
     font-size: 1.65rem;
-    font-weight: 700;
-    color: #111827;
-    line-height: 1.1;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
 }
 .metric-card .sub {
-    font-size: 0.75rem;
-    color: #9ca3af;
-    margin-top: .3rem;
-}
-
-/* ── Badge variants ─────────────────────────────────────────────────── */
-.badge {
-    display: inline-block;
-    padding: .22rem .65rem;
-    border-radius: 999px;
     font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: .02em;
+    color: #64748b;
+    margin-top: 0.45rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
-.badge-high  { background:#fee2e2; color:#b91c1c; }
-.badge-low   { background:#dcfce7; color:#15803d; }
-.badge-gap   { background:#fef3c7; color:#92400e; }
-.badge-nogap { background:#dcfce7; color:#15803d; }
-.badge-alert { background:#fee2e2; color:#b91c1c; }
-.badge-warn  { background:#fef9c3; color:#854d0e; }
 
-/* ── Section headers ────────────────────────────────────────────────── */
-.section-header {
-    font-size: 0.82rem;
+/* ── Badge Variants ─────────────────────────────────────────────────── */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
     font-weight: 700;
+    letter-spacing: 0.01em;
+}
+.badge-high  { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.badge-low   { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.badge-gap   { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+.badge-nogap { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.badge-alert { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.badge-warn  { background: #fefce8; color: #854d0e; border: 1px solid #fef08a; }
+
+/* ── Section Headers ────────────────────────────────────────────────── */
+.section-header {
+    font-size: 0.85rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: .07em;
-    color: #6b7280;
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: .4rem;
-    margin: 1.2rem 0 .7rem;
+    letter-spacing: 0.08em;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.45rem;
+    margin: 1.4rem 0 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
-/* ── Chat messages ──────────────────────────────────────────────────── */
+/* ── Patient Context Banner (Tab 2) ─────────────────────────────────── */
+.patient-banner {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 0.9rem 1.3rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.patient-banner-info {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+.patient-banner-sub {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* ── Chat Messages ──────────────────────────────────────────────────── */
 .chat-user {
-    background: #eff6ff;
-    border-left: 3px solid #2563eb;
-    border-radius: 0 8px 8px 0;
-    padding: .7rem 1rem;
-    margin: .5rem 0;
-    font-size: 0.9rem;
-}
-.chat-ai {
-    background: #f8fafc;
-    border-left: 3px solid #0ea5e9;
-    border-radius: 0 8px 8px 0;
-    padding: .8rem 1rem;
-    margin: .5rem 0;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    white-space: pre-wrap;
-}
-.chat-ai .model-tag {
-    font-size: 0.68rem;
-    color: #94a3b8;
-    margin-top: .5rem;
-    font-style: italic;
-}
-
-/* ── Citation pill ──────────────────────────────────────────────────── */
-.citation {
     background: #f0f9ff;
     border: 1px solid #bae6fd;
-    border-radius: 5px;
-    padding: .1rem .4rem;
+    border-left: 4px solid #0284c7;
+    border-radius: 12px;
+    padding: 0.9rem 1.2rem;
+    margin: 0.75rem 0;
+    font-size: 0.92rem;
+    color: #0f172a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+.chat-ai {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #3b82f6;
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    margin: 0.75rem 0;
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: #1e293b;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+}
+.chat-ai .model-tag {
     font-size: 0.72rem;
-    color: #0369a1;
-    font-family: monospace;
+    color: #64748b;
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #e2e8f0;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
 }
 
-/* ── Action button ──────────────────────────────────────────────────── */
+/* ── Citation Pill ──────────────────────────────────────────────────── */
+.citation {
+    background: #e0f2fe;
+    border: 1px solid #7dd3fc;
+    border-radius: 6px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #0369a1;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0 0.15rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Care Action Dispatch Box ───────────────────────────────────────── */
 .dispatch-box {
-    background: #fff7ed;
-    border: 1px solid #fed7aa;
-    border-radius: 8px;
-    padding: .9rem 1.1rem;
-    margin-top: 1rem;
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    border: 1px solid #fdba74;
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-top: 1.2rem;
+    box-shadow: 0 4px 10px -2px rgba(249, 115, 22, 0.12);
 }
 .dispatch-box .title {
-    font-weight: 700;
+    font-weight: 800;
     color: #c2410c;
-    font-size: 0.88rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
-/* ── Chunk expander ─────────────────────────────────────────────────── */
+/* ── Chunk Expander Card ────────────────────────────────────────────── */
+.chunk-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.6rem;
+}
 .chunk-header {
-    font-size: 0.74rem;
-    font-weight: 600;
-    color: #475569;
-    margin-bottom: .25rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .chunk-text {
-    font-size: 0.78rem;
-    color: #374151;
-    background: #f9fafb;
-    border-radius: 6px;
-    padding: .6rem .8rem;
+    font-size: 0.8rem;
+    color: #334155;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0.75rem 0.9rem;
     line-height: 1.55;
-    max-height: 280px;
+    max-height: 240px;
     overflow-y: auto;
     white-space: pre-wrap;
+    font-family: 'Inter', sans-serif;
 }
 
-/* ── Demo question pills ────────────────────────────────────────────── */
-.demo-q {
-    font-size: 0.81rem;
+/* ── Sidebar Styling ────────────────────────────────────────────────── */
+section[data-testid="stSidebar"] {
+    background-color: #f8fafc;
+    border-right: 1px solid #e2e8f0;
+}
+.sidebar-patient-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -440,7 +598,7 @@ pt_list  = load_patient_list(session)
 # ─────────────────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("## 🧠 SynapseCortex AI")
-    st.markdown("**Patient 360 & Regulatory Copilot**")
+    st.markdown("<div style='font-size:0.82rem; color:#64748b; font-weight:600; margin-top:-0.5rem; margin-bottom:0.8rem;'>Clinical Intelligence & Regulatory Copilot</div>", unsafe_allow_html=True)
     st.markdown("---")
 
     # Build display options: hero patients first, then alphabetical
@@ -459,7 +617,7 @@ with st.sidebar:
         default_idx = options.index(st.session_state.selected_patient)
 
     selected_idx = st.selectbox(
-        "Select Patient",
+        "Select Patient Profile",
         range(len(options)),
         format_func = lambda i: labels[i],
         index       = default_idx,
@@ -478,19 +636,20 @@ with st.sidebar:
     # Patient mini-card in sidebar
     p360_row = load_patient_360(session, selected_patient_id)
     if p360_row:
-        st.markdown(f"**{p360_row.get('FULL_NAME', '—')}**")
-        st.markdown(f"Age {p360_row.get('AGE', '—')} · {p360_row.get('GENDER', '—')}")
-        st.markdown(
-            risk_badge(p360_row.get("RISK_TIER", "LOW RISK")),
-            unsafe_allow_html=True,
-        )
-        st.markdown(
-            gap_badge(p360_row.get("CARE_GAP_STATUS", "NO GAP")),
-            unsafe_allow_html=True,
-        )
+        st.markdown(f"""
+        <div class="sidebar-patient-card">
+            <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:#64748b; letter-spacing:0.06em;">Active Patient Profile</div>
+            <div style="font-size:1.05rem; font-weight:800; color:#0f172a; margin-top:0.15rem;">{p360_row.get('FULL_NAME', '—')}</div>
+            <div style="font-size:0.8rem; color:#475569; margin-bottom:0.6rem;">Age {p360_row.get('AGE', '—')} · {p360_row.get('GENDER', '—')} · {p360_row.get('INSURANCE_PLAN', '—')}</div>
+            <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                {risk_badge(p360_row.get("RISK_TIER", "LOW RISK"))}
+                {gap_badge(p360_row.get("CARE_GAP_STATUS", "NO GAP"))}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.caption("SynapseCortex AI v1.0  \nSnowflake Cortex · llama3.3-70b  \nHackathon Build · Sep 2026")
+    st.caption("SynapseCortex AI v1.0  \nSnowflake Cortex · llama3.3-70b  \nNative Clinical Platform · 2026")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -498,9 +657,17 @@ with st.sidebar:
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="synapse-header">
-  <div>
-    <h1>🧠 SynapseCortex AI</h1>
-    <p class="subtitle">Patient 360 &amp; Clinical Regulatory Copilot &nbsp;·&nbsp; Powered by Snowflake Cortex</p>
+  <div class="synapse-header-left">
+    <div class="synapse-header-icon">🧠</div>
+    <div>
+      <h1>SynapseCortex AI</h1>
+      <div class="subtitle">Patient 360 &amp; Clinical Regulatory Copilot &nbsp;•&nbsp; Powered by Snowflake Cortex AI</div>
+    </div>
+  </div>
+  <div class="synapse-header-badges">
+    <span class="synapse-tag active">⚡ Cortex Search</span>
+    <span class="synapse-tag">🦙 llama3.3-70b</span>
+    <span class="synapse-tag">🔒 Dual-RAG</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -529,21 +696,22 @@ with tab_360:
     with col1:
         st.markdown(f"""
         <div class="metric-card">
-            <div class="label">Age</div>
-            <div class="value">{p360_row.get('AGE', '—')}</div>
-            <div class="sub">{p360_row.get('GENDER', '')} · {p360_row.get('INSURANCE_PLAN', '')}</div>
+            <div class="label">Patient Demographics</div>
+            <div class="value">{p360_row.get('AGE', '—')} yrs</div>
+            <div class="sub">👤 {p360_row.get('GENDER', '')} · {p360_row.get('INSURANCE_PLAN', '')}</div>
         </div>""", unsafe_allow_html=True)
 
     with col2:
         risk = p360_row.get("RISK_TIER", "LOW RISK")
-        risk_color = "#b91c1c" if risk == "HIGH RISK" else "#15803d"
+        risk_color = "#991b1b" if risk == "HIGH RISK" else "#166534"
+        card_cls = "card-red" if risk == "HIGH RISK" else "card-green"
         st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Risk Tier</div>
-            <div class="value" style="color:{risk_color}; font-size:1.3rem;">
+        <div class="metric-card {card_cls}">
+            <div class="label">Risk Stratification</div>
+            <div class="value" style="color:{risk_color}; font-size:1.35rem;">
                 {"🔴" if risk == "HIGH RISK" else "🟢"} {risk}
             </div>
-            <div class="sub">{p360_row.get('CHRONIC_CONDITION_COUNT', 0)} chronic conditions</div>
+            <div class="sub">📋 {p360_row.get('CHRONIC_CONDITION_COUNT', 0)} chronic conditions</div>
         </div>""", unsafe_allow_html=True)
 
     with col3:
@@ -551,35 +719,37 @@ with tab_360:
         <div class="metric-card">
             <div class="label">Total Claims Cost</div>
             <div class="value">{format_currency(p360_row.get('TOTAL_CLAIMS_COST', 0))}</div>
-            <div class="sub">{p360_row.get('CLAIM_COUNT', 0)} claims · last {p360_row.get('LAST_CLAIM_DATE', '—')}</div>
+            <div class="sub">💳 {p360_row.get('CLAIM_COUNT', 0)} claims · last {p360_row.get('LAST_CLAIM_DATE', '—')}</div>
         </div>""", unsafe_allow_html=True)
 
     with col4:
         gap = p360_row.get("CARE_GAP_STATUS", "NO GAP")
-        gap_color = "#92400e" if gap.startswith("GAP") else "#15803d"
+        gap_color = "#92400e" if gap.startswith("GAP") else "#166534"
         gap_icon  = "⚠️" if gap.startswith("GAP") else "✅"
+        card_cls  = "card-amber" if gap.startswith("GAP") else "card-green"
         st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Care Gap</div>
+        <div class="metric-card {card_cls}">
+            <div class="label">Care Quality Gap</div>
             <div class="value" style="color:{gap_color}; font-size:1.05rem;">
                 {gap_icon} {gap}
             </div>
-            <div class="sub">HEDIS NQF-0059 · ADA 2026</div>
+            <div class="sub">🎯 HEDIS NQF-0059 · CMS Star</div>
         </div>""", unsafe_allow_html=True)
 
     with col5:
         drug_flag = p360_row.get("DRUG_SAFETY_FLAG") or ""
-        flag_color = "#b91c1c" if "ALERT" in drug_flag else ("#854d0e" if drug_flag else "#15803d")
+        flag_color = "#991b1b" if "ALERT" in drug_flag else ("#854d0e" if drug_flag else "#166534")
         flag_icon  = "🚨" if "ALERT" in drug_flag else ("⚠️" if drug_flag else "✅")
         flag_text  = drug_flag if drug_flag else "No Drug Safety Flag"
-        flag_disp  = (flag_text[:38] + "…") if len(flag_text) > 40 else flag_text
+        flag_disp  = (flag_text[:36] + "…") if len(flag_text) > 38 else flag_text
+        card_cls   = "card-red" if "ALERT" in drug_flag else ("card-amber" if drug_flag else "card-green")
         st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Drug Safety</div>
-            <div class="value" style="color:{flag_color}; font-size:0.88rem; margin-top:.3rem;">
+        <div class="metric-card {card_cls}">
+            <div class="label">Drug Safety Check</div>
+            <div class="value" style="color:{flag_color}; font-size:0.88rem; margin-top:.2rem;">
                 {flag_icon} {flag_disp}
             </div>
-            <div class="sub">FDA contraindication check</div>
+            <div class="sub">💊 FDA contraindications</div>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -684,24 +854,19 @@ with tab_copilot:
 
     # ── Patient context banner ─────────────────────────────────────────────
     if p360_row:
-        banner_cols = st.columns([3, 1, 1, 1])
-        banner_cols[0].markdown(
-            f"**Consulting on:** {p360_row.get('FULL_NAME', selected_patient_id)}"
-            f" · Age {p360_row.get('AGE', '—')} · {p360_row.get('INSURANCE_PLAN', '—')}"
-        )
-        banner_cols[1].markdown(
-            risk_badge(p360_row.get("RISK_TIER", "LOW RISK")),
-            unsafe_allow_html=True,
-        )
-        banner_cols[2].markdown(
-            gap_badge(p360_row.get("CARE_GAP_STATUS", "NO GAP")),
-            unsafe_allow_html=True,
-        )
-        if p360_row.get("DRUG_SAFETY_FLAG"):
-            banner_cols[3].markdown(
-                drug_flag_badge(p360_row.get("DRUG_SAFETY_FLAG")),
-                unsafe_allow_html=True,
-            )
+        st.markdown(f"""
+        <div class="patient-banner">
+            <div>
+                <div class="patient-banner-info">🧑‍⚕️ Clinical Consultation: {p360_row.get('FULL_NAME', selected_patient_id)}</div>
+                <div class="patient-banner-sub">Age {p360_row.get('AGE', '—')} · {p360_row.get('GENDER', '—')} · {p360_row.get('INSURANCE_PLAN', '—')} · Patient ID: {selected_patient_id[:22]}…</div>
+            </div>
+            <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+                {risk_badge(p360_row.get("RISK_TIER", "LOW RISK"))}
+                {gap_badge(p360_row.get("CARE_GAP_STATUS", "NO GAP"))}
+                {drug_flag_badge(p360_row.get("DRUG_SAFETY_FLAG")) if p360_row.get("DRUG_SAFETY_FLAG") else ""}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -709,7 +874,7 @@ with tab_copilot:
     prefix   = hero_prefix(selected_patient_id)
     demo_qs  = DEMO_QUESTIONS.get(prefix, DEMO_QUESTIONS["__default__"])
 
-    st.markdown('<div class="section-header">Quick Demo Questions</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">💡 Suggested Clinical Demo Queries</div>', unsafe_allow_html=True)
     btn_cols = st.columns(len(demo_qs))
     triggered_demo_q: str | None = None
     for i, (col, q) in enumerate(zip(btn_cols, demo_qs)):
@@ -720,19 +885,16 @@ with tab_copilot:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # ── Chat history display ──────────────────────────────────────────────
-    st.markdown('<div class="section-header">Conversation</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">💬 Evidence-Grounded Conversation</div>', unsafe_allow_html=True)
 
     chat_container = st.container()
     with chat_container:
         if not st.session_state.chat_history:
-            st.markdown(
-                "*No messages yet — select a demo question above or type below.*",
-                help="Start by clicking a demo question or entering your own."
-            )
+            st.info("💡 Select a suggested clinical demo question above or type your query below to begin consultation.")
         for msg in st.session_state.chat_history:
             if msg["role"] == "user":
                 st.markdown(
-                    f'<div class="chat-user">🧑‍⚕️ <strong>You</strong><br>{msg["content"]}</div>',
+                    f'<div class="chat-user">👨‍⚕️ <strong>Clinician Question:</strong><br>{msg["content"]}</div>',
                     unsafe_allow_html=True,
                 )
             else:
@@ -740,10 +902,14 @@ with tab_copilot:
                 styled_answer = render_citations(msg["content"])
                 st.markdown(
                     f'<div class="chat-ai">'
-                    f'🤖 <strong>SynapseCortex Copilot</strong><br><br>'
+                    f'<div style="font-weight:800; color:#0f172a; font-size:0.95rem; margin-bottom:0.6rem; display:flex; align-items:center; gap:0.4rem;">'
+                    f'🧠 <strong>SynapseCortex Clinical Regulatory Copilot</strong>'
+                    f'</div>'
                     f'{styled_answer}'
-                    f'<div class="model-tag">Model: {msg.get("model", "llama3.3-70b")} · '
-                    f'{len(msg.get("chunks", []))} document chunk(s) retrieved</div>'
+                    f'<div class="model-tag">'
+                    f'<span>⚡ Engine: Snowflake Cortex AI ({msg.get("model", "llama3.3-70b")})</span>'
+                    f'<span>🔍 {len(msg.get("chunks", []))} evidence document chunk(s) retrieved</span>'
+                    f'</div>'
                     f'</div>',
                     unsafe_allow_html=True,
                 )
@@ -751,24 +917,20 @@ with tab_copilot:
                 chunks = msg.get("chunks", [])
                 if chunks:
                     with st.expander(
-                        f"📄  Retrieved Document Chunks ({len(chunks)})",
+                        f"📄  Retrieved Document Chunks & Evidence ({len(chunks)})",
                         expanded=False,
                     ):
                         for j, chunk in enumerate(chunks, 1):
                             st.markdown(
+                                f'<div class="chunk-card">'
                                 f'<div class="chunk-header">'
-                                f'[{j}] {chunk["file_name"]}  ·  '
-                                f'Page {chunk["page_number"]}  ·  '
-                                f'<em>{chunk["doc_category"]}</em>'
+                                f'<span>[{j}] 📄 <strong>{chunk["file_name"]}</strong> (Page {chunk["page_number"]})</span>'
+                                f'<span style="background:#e2e8f0; color:#475569; padding:0.15rem 0.5rem; border-radius:12px; font-size:0.7rem;">{chunk["doc_category"]}</span>'
+                                f'</div>'
+                                f'<div class="chunk-text">{chunk["page_text"]}</div>'
                                 f'</div>',
                                 unsafe_allow_html=True,
                             )
-                            st.markdown(
-                                f'<div class="chunk-text">{chunk["page_text"]}</div>',
-                                unsafe_allow_html=True,
-                            )
-                            if j < len(chunks):
-                                st.markdown("---")
 
     # ── Chat input ────────────────────────────────────────────────────────
     user_input = st.chat_input(

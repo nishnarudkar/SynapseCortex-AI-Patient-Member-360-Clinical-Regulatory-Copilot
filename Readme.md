@@ -3,303 +3,282 @@
 # 🧠 SynapseCortex AI
 ### Patient 360 & Clinical Regulatory Copilot
 
-*A Snowflake-native clinical intelligence platform that unifies structured EHR data, unstructured clinical documents, and generative AI into a single production-ready application.*
+*A Snowflake-native clinical intelligence platform unifying structured EHR data, unstructured clinical documentation, and generative AI under strict citation enforcement.*
 
-[![Snowflake](https://img.shields.io/badge/Snowflake-Cortex%20AI-29B5E8?logo=snowflake&logoColor=white)](https://www.snowflake.com/en/data-cloud/cortex/)
-[![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-in%20Snowflake-FF4B4B?logo=streamlit&logoColor=white)](https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit)
-[![LLM](https://img.shields.io/badge/LLM-llama3.3--70b-blueviolet)](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Snowflake Cortex AI](https://img.shields.io/badge/Snowflake-Cortex%20AI-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)](https://www.snowflake.com/en/data-cloud/cortex/)
+[![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-in%20Snowflake-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit)
+[![LLM](https://img.shields.io/badge/LLM-llama3.3--70b-7C3AED?style=for-the-badge)](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions)
+[![Embeddings](https://img.shields.io/badge/Embeddings-arctic--embed--l--v2.0-0284C7?style=for-the-badge)](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search)
+[![License](https://img.shields.io/badge/License-MIT-10B981?style=for-the-badge)](LICENSE)
 
-**Live App →** [Open in Snowsight](https://app.snowflake.com/streamlit/cnwxskg/mw91931/#/apps/b2pmsuf3ml5nmm3cmolf)
+<br/>
+
+[🚀 **Open Live Application in Snowsight**](https://app.snowflake.com/streamlit/cnwxskg/mw91931/#/apps/b2pmsuf3ml5nmm3cmolf) &nbsp;•&nbsp; [📐 **Architecture**](#-architecture) &nbsp;•&nbsp; [🧪 **Hero Demo Cases**](#-hero-demo-walkthrough) &nbsp;•&nbsp; [⚙️ **Setup Guide**](#%EF%B8%8F-setup--deployment-guide)
 
 </div>
 
 ---
 
-## What Is SynapseCortex AI?
+## 📋 Table of Contents
 
-SynapseCortex AI is a clinical intelligence platform built entirely on Snowflake. It answers three questions that drive real-world healthcare outcomes:
-
-| Clinical Question | How SynapseCortex Answers It |
-|---|---|
-| *Is this patient's medication safe?* | Drug–disease contraindication detection using FDA package inserts + structured lab data |
-| *Is this patient missing a required quality measure?* | HEDIS NQF-0059 care gap detection with CMS Star Rating impact scoring |
-| *Which patients are highest risk?* | Deterministic risk stratification over claims cost + age + chronic condition burden |
-
-It does this by combining three pillars built entirely on Snowflake:
-
-- **Patient 360 View** — A longitudinal record joining `PATIENTS`, `ENCOUNTERS`, `CLAIMS`, and `LABS` with risk stratification and care gap logic applied in SQL.
-- **Cortex Document Intelligence** — Eight clinical notes and FDA package inserts indexed in a `CORTEX SEARCH SERVICE` for hybrid semantic + lexical retrieval.
-- **Dual-RAG Clinical Copilot** — A `llama3.3-70b`-powered assistant that synthesises structured Patient 360 context with vector-searched document chunks under strict citation enforcement.
-
----
-
-## Live Demo
-
-**App URL:** https://app.snowflake.com/streamlit/cnwxskg/mw91931/#/apps/b2pmsuf3ml5nmm3cmolf
-
-The app has two tabs:
-
-### Tab 1 — Patient 360 Dashboard
-Shows the full longitudinal clinical profile for any of the 50 synthetic patients:
-- Risk tier badge (HIGH RISK / LOW RISK)
-- Care gap status (HEDIS NQF-0059)
-- Drug safety flag (FDA contraindication check)
-- Active medications, diagnoses, encounters, lab results, claims
-
-### Tab 2 — Clinical & Regulatory Copilot
-An AI chat interface backed by Dual-RAG:
-- Select a patient from the sidebar
-- Click a demo question or type your own
-- The copilot retrieves relevant document chunks and structured patient data
-- Every factual claim in the response includes an inline citation `[Doc: filename, Page: n]`
+- [Executive Summary](#-executive-summary)
+- [Key Platform Capabilities](#-key-platform-capabilities)
+- [Elevator Pitch](#-elevator-pitch)
+- [Architecture](#-architecture)
+  - [End-to-End Data Pipeline](#end-to-end-data-pipeline)
+  - [Dual-RAG Intelligence Engine](#dual-rag-intelligence-engine)
+- [Hero Demo Walkthrough](#-hero-demo-walkthrough)
+  - [Hero 1 — Safety Violation (Robert Callahan)](#hero-1--safety-violation-%EF%B8%8F-robert-callahan)
+  - [Hero 2 — Care Gap (Linda Moreno)](#hero-2--care-gap--linda-moreno)
+  - [Hero 3 — High Risk & Polypharmacy (James Whitfield)](#hero-3--high-risk--james-whitfield)
+- [Snowflake Object Schema Inventory](#-snowflake-object-schema-inventory)
+- [Clinical & FDA Reference Documents](#-clinical--fda-reference-documents)
+- [Setup & Deployment Guide](#%EF%B8%8F-setup--deployment-guide)
+- [Security, Compliance & Governance](#-security-compliance--governance)
+- [License & Acknowledgments](#-license--acknowledgments)
 
 ---
 
-## Demo Walkthrough — Step by Step
+## 💡 Executive Summary
 
-### Hero Case 1 — Safety Violation 🔴
-**Patient:** Robert Callahan | Age 58 | CKD Stage 3
+Healthcare organizations face an overwhelming challenge: **over 80% of critical clinical data resides in unstructured clinical notes and regulatory filings**, while structured longitudinal patient records remain trapped in siloed relational databases. Clinicians and care managers spend hours manually correlating EHR lab values with FDA package inserts and quality guidelines.
 
-1. Open the app → select **⚠️ Hero 1 – Safety Violation | Robert Callahan** from the sidebar
-2. Go to **Tab 1 (Patient 360 Dashboard)**
-   - Notice the red **🚨 ALERT: Metformin active with eGFR < 45** drug safety flag
-   - Check the Lab Results table — eGFR is 38 mL/min (abnormal, highlighted red)
-   - Metformin row in the medications table is also highlighted red
-3. Go to **Tab 2 (Clinical Copilot)**
-4. Click the demo question: **"Is Metformin contraindicated for this patient given their kidney function?"**
-5. The copilot will respond with:
-   - Direct answer citing FDA Black Box Warning for Metformin in CKD eGFR 30–44
-   - Supporting evidence from the clinical note (eGFR 38 mL/min)
-   - Recommendation to discontinue or dose-reduce, with citations
+**SynapseCortex AI** solves this problem by providing a single, Snowflake-native clinical decision support system that answers three foundational healthcare questions:
 
-**What to highlight:** The AI didn't hallucinate — every claim is grounded in the FDA insert and the patient's own lab results. The drug safety flag was computed by deterministic SQL, not LLM inference.
+| Clinical Challenge | How SynapseCortex AI Answers It | Business & Regulatory Impact |
+| :--- | :--- | :--- |
+| **Medication Safety** | Detects drug–disease & drug–lab contraindications by cross-referencing FDA package inserts with real-time eGFR/Creatinine lab values in SQL. | Prevents adverse drug events (ADEs), reduces ICU admissions, and minimizes liability. |
+| **Care Quality Gaps** | Evaluates longitudinal lab histories against CMS Star / HEDIS NQF-0059 guidelines to flag overdue diabetic screenings. | Protects health plan quality ratings (e.g., maintaining 4+ Star status) and value-based care revenue. |
+| **Risk Stratification** | Calculates deterministic risk tiers over multi-year claims cost, age, chronic condition burden, and 30-day readmission risk. | Focuses complex care management resources on top-decile high-cost, high-risk members. |
 
 ---
 
-### Hero Case 2 — Care Gap 🟡
-**Patient:** Linda Moreno | Age 62 | Type 2 Diabetes
+## ✨ Key Platform Capabilities
 
-1. Select **⚠️ Hero 2 – Care Gap | Linda Moreno** from the sidebar
-2. Go to **Tab 1**
-   - Notice the yellow **⚠️ GAP: Overdue HbA1c Lab** badge
-   - Last HbA1c metric shows 7.8% on 2025-07-11 (14 months ago)
-3. Go to **Tab 2**
-4. Click: **"What care gaps exist for this diabetic patient?"**
-5. The copilot responds with:
-   - HbA1c overdue by 14 months, last result 7.8% above target < 7.0%
-   - ADA 2026 Standards — should be tested at least twice per year
-   - HEDIS NQF-0059 compliance gap
-   - CMS Star Rating risk: plan score could drop from 3 → 4 stars
-   - Recommendations: order HbA1c immediately, consider therapy intensification
-
-**What to highlight:** The care gap was detected by a pure SQL rule (HEDIS NQF-0059), not AI. The LLM only explains and contextualises it using the retrieved documents.
+- **Unified Patient 360 View**: 4-way SQL join of `PATIENTS`, `ENCOUNTERS`, `CLAIMS`, and `LABS` with dynamic risk tiering and safety rule evaluation.
+- **Cortex Document Search Service**: Hybrid semantic + lexical vector search over clinical encounter notes and FDA package inserts powered by `snowflake-arctic-embed-l-v2.0`.
+- **Dual-RAG Clinical Copilot**: Evidence-grounded conversational engine driven by `llama3.3-70b` with mandatory inline citation enforcement (`[Doc: <file>, Page: <n>]`).
+- **Clinical Care Action Dispatcher**: Interactive workflow dispatcher supporting simulated MCP triggers for Jira, Slack, Email, and PagerDuty notifications.
+- **Zero Data Movement**: Built 100% inside Snowflake — storage, vector indexing, LLM inference, and Streamlit UI execute entirely within the customer's governance perimeter.
 
 ---
 
-### Hero Case 3 — High Risk 🔴
-**Patient:** James Whitfield | Age 71 | 8 chronic conditions, 9-drug polypharmacy
+## 🎙️ Elevator Pitch
 
-1. Select **⚠️ Hero 3 – High Risk | James Whitfield** from the sidebar
-2. Go to **Tab 1**
-   - Risk tier shows **🔴 HIGH RISK** (age 71, claims $51,755 YTD)
-   - 8 chronic conditions, 9 active medications
-   - Multiple abnormal lab results highlighted red
-3. Go to **Tab 2**
-4. Click: **"Summarise the drug-drug interactions in this patient's current regimen"**
-5. The copilot responds with:
-   - Carvedilol + Albuterol → worsens bronchospasm in COPD
-   - Lisinopril + Furosemide → hyperkalemia risk in CKD
-   - Carvedilol + Insulin Glargine → masks hypoglycemia symptoms
-   - All cited from the Polypharmacy High Risk FDA insert
-
-**What to highlight:** The RAG engine automatically routed the query to the correct FDA reference document using Cortex Search. The filter logic identified this as a Hero-PT-003 patient and retrieved their specific documents + all FDA inserts.
-
----
-
-## How to Explain the Project (Elevator Pitch)
-
-> "SynapseCortex AI is a clinical decision support platform built natively on Snowflake. It takes a patient's full medical history — their diagnoses, medications, lab results, and claims — and combines it with FDA drug safety guidelines and clinical quality standards in a single AI-powered interface.
+> *"SynapseCortex AI is a clinical intelligence platform built natively on Snowflake. It unifies a patient's entire medical record — diagnoses, pharmacy claims, lab results, and encounter notes — with FDA regulatory guidelines and HEDIS quality standards inside a single AI-powered application.*
 >
-> The platform automatically detects three critical clinical scenarios: medication safety violations, overdue care quality measures, and high-risk patients who need urgent intervention. When a clinician asks a question about a patient, the system retrieves the most relevant passages from FDA package inserts and clinical notes using Snowflake's vector search, then uses llama3.3-70b to synthesise a cited answer grounded entirely in evidence — no hallucination, no guessing.
+> *The platform automatically highlights critical safety violations, overdue preventive care gaps, and high-risk patients. When a clinician asks a question, SynapseCortex AI performs vector search over FDA package inserts and clinical notes using Cortex Search, then uses llama3.3-70b to synthesize a cited answer grounded strictly in evidence — with zero hallucination.*
 >
-> Everything runs inside Snowflake — the data, the AI, and the app. There's no external infrastructure to manage."
+> *Everything runs natively inside Snowflake with enterprise-grade governance and zero external data export."*
 
 ---
 
-## Architecture
+## 📐 Architecture
+
+### End-to-End Data Pipeline
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                          SYNAPSE_HEALTH  (Snowflake Database)               │
-│                                                                             │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  RAW  (landing zone)                                                 │   │
-│  │  PATIENTS · ENCOUNTERS · CLAIMS · LABS   ←  CSV bulk load           │   │
-│  │  @CLINICAL_STAGE (SNOWFLAKE_SSE)         ←  8 clinical text files   │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
-│                              │                                              │
-│                              ▼  Python parser + SQL transforms              │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  TRANSFORMED  (enriched layer)                                       │   │
-│  │  PARSED_CLINICAL_DOCS  ←  full text per document                    │   │
-│  │  PATIENT_360_VIEW      ←  4-way join + RISK_TIER + CARE_GAP_STATUS  │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
-│                              │                                              │
-│                              ▼  Cortex Search + Cortex COMPLETE             │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  APP  (serving layer)                                                │   │
-│  │  CLINICAL_DOC_SEARCH   ←  Cortex Search (arctic-embed-l-v2.0)       │   │
-│  │  PATIENT_360_SNAPSHOT  ←  Materialised Patient 360 for RAG reads    │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
-│                              │                                              │
-│                              ▼  Streamlit in Snowflake                      │
-│  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  app/app.py  ·  Two-tab UI                                           │   │
-│  │  Tab 1: Patient 360 Dashboard                                        │   │
-│  │  Tab 2: Clinical Copilot  (Dual-RAG chat + citations)                │   │
-│  └──────────────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                         SYNAPSE_HEALTH  (Snowflake Database)                           │
+│                                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ RAW SCHEMA (Landing Layer)                                                       │  │
+│  │  • PATIENTS (50 synthetic records)    • CLAIMS (215 medical/pharmacy records)   │  │
+│  │  • ENCOUNTERS (102 clinical visits)   • LABS (150 LOINC-coded lab results)       │  │
+│  │  • @CLINICAL_STAGE (Internal stage with 8 clinical & FDA reference files)        │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
+│                                           │                                            │
+│                                           ▼  Python Parsers + SQL Transforms           │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ TRANSFORMED SCHEMA (Enriched Layer)                                              │  │
+│  │  • PARSED_CLINICAL_DOCS (Document chunks with metadata & CHANGE_TRACKING=TRUE)   │  │
+│  │  • PATIENT_360_VIEW (4-way join + RISK_TIER + CARE_GAP_STATUS + DRUG_SAFETY)     │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
+│                                           │                                            │
+│                                           ▼  Cortex Search Service + Snapshot          │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ APP SCHEMA (Serving & Application Layer)                                          │  │
+│  │  • CLINICAL_DOC_SEARCH (Cortex Search Service using arctic-embed-l-v2.0)        │  │
+│  │  • PATIENT_360_SNAPSHOT (Materialized 50-row table for instant RAG lookup)        │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
+│                                           │                                            │
+│                                           ▼  Streamlit in Snowflake                    │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │ app/app.py (Streamlit Web UI)                                                    │  │
+│  │  • Tab 1: Patient 360 Dashboard (Metrics, Encounters, Labs, Medications, Claims)  │  │
+│  │  • Tab 2: Clinical & Regulatory Copilot (Dual-RAG Chat + Care Action Dispatcher)  │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Dual-RAG Engine Flow
+### Dual-RAG Intelligence Engine
 
 ```
-User Question
-     │
-     ▼
-Enrich query with patient's ICD-10 codes + drug names + eGFR
-     │
-     ▼
-Cortex Search → retrieve top-5 document chunks (semantic + lexical)
-     │
-     ▼
-Fetch Patient 360 structured context from APP.PATIENT_360_SNAPSHOT
-     │
-     ▼
-Assemble prompt:
-  [System]  Strict citation enforcement instructions
-  [User]    CONTEXT A: Patient 360 structured data
-            CONTEXT B: Retrieved document chunks
-            QUESTION:  User's clinical query
-     │
-     ▼
-SNOWFLAKE.CORTEX.COMPLETE (llama3.3-70b)
-     │
-     ▼
-Cited clinical answer with [Doc: filename, Page: n] inline references
-```
-
----
-
-## Repository Structure
-
-```
-SynapseCortex AI/
-│
-├── app/
-│   ├── app.py                               Streamlit UI (two-tab, production-ready)
-│   └── rag_engine.py                        Dual-RAG Copilot engine
-│
-├── snowflake/
-│   ├── ddl/
-│   │   ├── 01_database_schemas.sql          SYNAPSE_HEALTH DB + schemas
-│   │   ├── 02_raw_tables.sql                PATIENTS, ENCOUNTERS, CLAIMS, LABS
-│   │   ├── 03_clinical_stage.sql            Internal stage + file formats
-│   │   ├── 05_parsed_clinical_docs.sql      TRANSFORMED.PARSED_CLINICAL_DOCS
-│   │   ├── 06_cortex_search_service.sql     APP.CLINICAL_DOC_SEARCH
-│   │   ├── 07_validate_cortex_pipeline.sql  End-to-end validation queries
-│   │   └── 08_patient_360_and_copilot.sql   PATIENT_360_VIEW + snapshot table
-│   └── stage/
-│       └── 04_stage_and_load.sql            Stage + COPY INTO reference script
-│
-├── data_generator/
-│   ├── generate_synthetic_data.py           Faker script — 50 patients, 3 hero cases
-│   └── output/                              Seed CSVs (committed for reproducibility)
-│       ├── patients.csv                     50 rows
-│       ├── encounters.csv                   102 rows
-│       ├── claims.csv                       215 rows
-│       └── labs.csv                         150 rows
-│
-├── clinical_docs/
-│   ├── clinical_notes/                      5 synthetic encounter notes (hero patients)
-│   └── fda_inserts/                         3 FDA-style regulatory reference documents
-│
-├── upload_to_snowflake.py                   Python uploader (replaces SnowSQL PUT)
-├── parse_and_load_docs.py                   Local doc parser (replaces AI_PARSE_DOCUMENT)
-├── snowflake.yml                            Snowflake CLI project definition
-├── requirements.txt                         Pinned Python dependencies
-└── Readme.md
+                       Clinician Query
+                              │
+                              ▼
+        ┌───────────────────────────────────────────┐
+        │  Enrich Query with Patient Metadata       │
+        │  (ICD-10 codes, active drugs, lab values) │
+        └─────────────────────┬─────────────────────┘
+                              │
+              ┌───────────────┴───────────────┐
+              ▼                               ▼
+  ┌───────────────────────┐       ┌───────────────────────┐
+  │  Cortex Search Engine │       │ Structured Snapshot   │
+  │  (Vector Search over  │       │ (SQL Patient 360      │
+  │  Clinical & FDA Docs) │       │  Demographics & Labs) │
+  └───────────┬───────────┘       └───────────┬───────────┘
+              │                               │
+              │  Top-5 Relevant Chunks        │  Patient 360 JSON
+              └───────────────┬───────────────┘
+                              │
+                              ▼
+        ┌───────────────────────────────────────────┐
+        │  Dual-RAG Context Synthesizer             │
+        │  [System] Strict Citation Instructions    │
+        │  [Context A] Structured Patient 360       │
+        │  [Context B] Retrieved Document Chunks    │
+        └─────────────────────┬─────────────────────┘
+                              │
+                              ▼
+        ┌───────────────────────────────────────────┐
+        │  SNOWFLAKE.CORTEX.COMPLETE                │
+        │  Model: llama3.3-70b (Temp: 0.05)         │
+        └─────────────────────┬─────────────────────┘
+                              │
+                              ▼
+        ┌───────────────────────────────────────────┐
+        │  Evidence-Grounded Response               │
+        │  Inline Citations: [Doc: file, Page: n]   │
+        └───────────────────────────────────────────┘
 ```
 
 ---
 
-## Hero Patients
+## 🧪 Hero Demo Walkthrough
 
-Three clinically precise patients are embedded in the synthetic dataset. Every demo scenario flows through these cases.
+The synthetic cohort embeds three clinically precise **Hero Patients** designed for demonstration and validation.
 
-| # | Patient | Age | Clinical Profile | Alert Type |
-|---|---------|:---:|----------------|-----------|
-| 🔴 1 | **Robert Callahan** `HERO-PT-001` | 58 | CKD Stage 3 (eGFR 38) · active Metformin 1000mg BID · Creatinine 2.4 | **Safety Violation** — Metformin in eGFR 30–44 high-risk zone; lactic acidosis risk per FDA Black Box Warning |
-| 🟡 2 | **Linda Moreno** `HERO-PT-002` | 62 | Type 2 Diabetes · last HbA1c 7.8% on 2025-07-11 (14 months ago) · LDL 128 | **Care Gap** — HbA1c overdue per ADA 2026 + HEDIS CDC NQF-0059; CMS Star Rating 3→4 risk |
-| 🔴 3 | **James Whitfield** `HERO-PT-003` | 71 | 8 chronic conditions · 9-drug polypharmacy · 3 acute encounters · EF 38% | **High Risk** — $51,755 YTD claims; 5 drug–drug interaction flags; 38% predicted 30-day readmission |
+### Hero 1 — Safety Violation 🔴 `Robert Callahan`
 
----
+- **Demographics**: 58-year-old male | Insurance: Medicare Advantage | Patient ID: `HERO-PT-001`
+- **Clinical Profile**: CKD Stage 3 (eGFR 38 mL/min, Creatinine 2.4 mg/dL) | Active prescription: **Metformin 1000mg BID**
+- **Triggered Alert**: `🚨 ALERT: Metformin active with eGFR < 45`
 
-## Snowflake Object Inventory
-
-| Schema | Object | Type | Purpose |
-|--------|--------|------|---------|
-| RAW | `PATIENTS` | Table | 50 synthetic patients (3 hero + 47 background) |
-| RAW | `ENCOUNTERS` | Table | 102 clinical encounters |
-| RAW | `CLAIMS` | Table | 215 medical + pharmacy claims |
-| RAW | `LABS` | Table | 150 lab results with LOINC codes |
-| RAW | `@CLINICAL_STAGE` | Internal Stage | 8 clinical text files (SSE encrypted) |
-| TRANSFORMED | `PARSED_CLINICAL_DOCS` | Table | Extracted text, one row per document, CHANGE_TRACKING=TRUE |
-| TRANSFORMED | `PATIENT_360_VIEW` | View | 4-way join + RISK_TIER + CARE_GAP_STATUS + DRUG_SAFETY_FLAG |
-| APP | `CLINICAL_DOC_SEARCH` | Cortex Search Service | arctic-embed-l-v2.0 · hybrid semantic+lexical search |
-| APP | `PATIENT_360_SNAPSHOT` | Table | Materialised Patient 360, 50 rows, read by RAG engine |
+#### Demo Steps:
+1. Open the app sidebar and select **⚠️ Hero 1 – Safety Violation | Robert Callahan**.
+2. Navigate to **Tab 1 (Patient 360 Dashboard)**:
+   - Observe the **Drug Safety Check** card displaying the red alert badge.
+   - Inspect the **Lab Results** table — eGFR (38 mL/min) is highlighted red as abnormal.
+   - Inspect the **Active Medications** table — Metformin is flagged with a red alert background.
+3. Switch to **Tab 2 (Clinical & Regulatory Copilot)**:
+   - Click the suggested query: **"Is Metformin contraindicated for this patient given their kidney function?"**
+   - The copilot synthesizes the response citing the FDA Black Box Warning:
+     > *"Metformin is contraindicated in patients with eGFR < 30 mL/min and requires dose reduction / monitoring in eGFR 30–44 mL/min due to risk of severe lactic acidosis [Doc: fda_inserts/fda_insert_METFORMIN.txt, Page: 1]. The patient's current eGFR is 38 mL/min [Doc: Structured Data, Page: N/A]."*
 
 ---
 
-## Staged Clinical Documents
+### Hero 2 — Care Gap 🟡 `Linda Moreno`
 
-| File | Patient | Type |
-|------|---------|------|
-| `hero1_note_ROBERT_CALLAHAN.txt` | Hero 1 | Encounter note — CKD + Metformin safety |
-| `hero2_note_LINDA_MORENO.txt` | Hero 2 | Encounter note — Diabetes + HbA1c care gap |
-| `hero3_note_JAMES_WHITFIELD_inpatient.txt` | Hero 3 | Discharge summary — NSTEMI / PCI |
-| `hero3_note_JAMES_WHITFIELD_outpatient.txt` | Hero 3 | Encounter note — COPD exacerbation |
-| `hero3_note_JAMES_WHITFIELD_ED.txt` | Hero 3 | ED note — Hypertensive crisis |
-| `fda_insert_METFORMIN.txt` | Hero 1 | FDA insert — Black Box Warning · CKD dosing |
-| `fda_insert_HBA1C_MONITORING_STANDARD.txt` | Hero 2 | Clinical reference — HEDIS NQF-0059 · ADA 2026 |
-| `fda_insert_POLYPHARMACY_HIGH_RISK.txt` | Hero 3 | Clinical reference — Beers Criteria · DDI analysis |
+- **Demographics**: 62-year-old female | Insurance: Commercial PPO | Patient ID: `HERO-PT-002`
+- **Clinical Profile**: Type 2 Diabetes Mellitus | Last HbA1c: **7.8%** on 2025-07-11 (14 months overdue)
+- **Triggered Alert**: `⚠️ GAP: Overdue HbA1c Lab`
+
+#### Demo Steps:
+1. Select **⚠️ Hero 2 – Care Gap | Linda Moreno** in the sidebar.
+2. View **Tab 1**:
+   - The **Care Quality Gap** metric card highlights `⚠️ GAP: Overdue HbA1c Lab`.
+   - Secondary metric **Last HbA1c** shows `7.8%` with delta date over 1 year ago.
+3. View **Tab 2**:
+   - Click: **"What care gaps exist for this diabetic patient?"**
+   - Copilot response highlights:
+     > *"The patient has an unclosed care gap under HEDIS NQF-0059 for HbA1c testing [Doc: Structured Data, Page: N/A]. Per ADA 2026 guidelines, diabetic patients with HbA1c > 7.0% require testing every 6 months [Doc: fda_inserts/fda_insert_HBA1C_MONITORING_STANDARD.txt, Page: 1]. Delaying testing risks CMS Star Rating degradation from 4 to 3 Stars."*
 
 ---
 
-## Setup & Installation
+### Hero 3 — High Risk & Polypharmacy 🔴 `James Whitfield`
+
+- **Demographics**: 71-year-old male | Insurance: Medicare | Patient ID: `HERO-PT-003`
+- **Clinical Profile**: 8 Chronic Conditions | 9-Drug Polypharmacy | 3 Inpatient/ED visits | YTD Claims: **$51,755**
+- **Triggered Alert**: `🔴 HIGH RISK` + 5 Drug–Drug Interaction flags
+
+#### Demo Steps:
+1. Select **⚠️ Hero 3 – High Risk | James Whitfield** in the sidebar.
+2. View **Tab 1**:
+   - Total Claims Cost shows `$51,755`.
+   - Multiple abnormal labs (Potassium, Creatinine, BNP) highlighted in red.
+3. View **Tab 2**:
+   - Click: **"Summarise the drug-drug interactions in this patient's current regimen."**
+   - Copilot response details multi-drug interaction vectors (Carvedilol + Albuterol, Lisinopril + Furosemide) backed by citations from `fda_insert_POLYPHARMACY_HIGH_RISK.txt`.
+   - Click **⚡ Dispatch Care Action** to trigger an automated case management alert payload for Jira or PagerDuty.
+
+---
+
+## 📊 Snowflake Object Schema Inventory
+
+All database objects are organized cleanly into four isolated schemas under `SYNAPSE_HEALTH`:
+
+| Schema | Object Name | Object Type | Description / Purpose |
+| :--- | :--- | :--- | :--- |
+| **`RAW`** | `PATIENTS` | Table | 50 synthetic patient demographic records |
+| **`RAW`** | `ENCOUNTERS` | Table | 102 outpatient, inpatient, ED, and telehealth encounter logs |
+| **`RAW`** | `CLAIMS` | Table | 215 medical and pharmacy claim records |
+| **`RAW`** | `LABS` | Table | 150 LOINC-coded laboratory test results |
+| **`RAW`** | `@CLINICAL_STAGE` | Internal Stage | SSE-encrypted stage containing raw text clinical notes & FDA inserts |
+| **`TRANSFORMED`** | `PARSED_CLINICAL_DOCS` | Table | Extracted text chunks with file metadata (`CHANGE_TRACKING=TRUE`) |
+| **`TRANSFORMED`** | `PATIENT_360_VIEW` | View | 4-way join view with embedded SQL logic for Risk Tier & Care Gaps |
+| **`APP`** | `CLINICAL_DOC_SEARCH` | Cortex Search | Hybrid vector search service (`arctic-embed-l-v2.0`) |
+| **`APP`** | `PATIENT_360_SNAPSHOT` | Table | Materialized 50-row Patient 360 record optimized for low-latency RAG |
+
+---
+
+## 📄 Clinical & FDA Reference Documents
+
+Eight staged documents provide the unstructured knowledge base indexed by Cortex Search:
+
+| Document Path | Document Category | Patient / Context | Key Clinical Content |
+| :--- | :--- | :--- | :--- |
+| `hero1_note_ROBERT_CALLAHAN.txt` | Clinical Note | Hero 1 | Nephrology consult note details eGFR 38 mL/min & Metformin regimen |
+| `hero2_note_LINDA_MORENO.txt` | Clinical Note | Hero 2 | Primary care visit note detailing overdue HbA1c lab test |
+| `hero3_note_JAMES_WHITFIELD_inpatient.txt` | Clinical Note | Hero 3 | Inpatient discharge summary for NSTEMI / PCI intervention |
+| `hero3_note_JAMES_WHITFIELD_outpatient.txt` | Clinical Note | Hero 3 | Cardiology follow-up note for COPD exacerbation & polypharmacy |
+| `hero3_note_JAMES_WHITFIELD_ED.txt` | Clinical Note | Hero 3 | Emergency department note for acute hypertensive crisis |
+| `fda_insert_METFORMIN.txt` | FDA Package Insert | FDA Reference | Dosing contraindications, eGFR thresholds, and Black Box Warnings |
+| `fda_insert_HBA1C_MONITORING_STANDARD.txt` | Quality Guideline | Clinical Reference | HEDIS NQF-0059 & ADA 2026 diabetes monitoring compliance standards |
+| `fda_insert_POLYPHARMACY_HIGH_RISK.txt` | Clinical Reference | Clinical Reference | Beers Criteria & Drug-Drug Interaction (DDI) risk evaluation matrix |
+
+---
+
+## ⚙️ Setup & Deployment Guide
 
 ### Prerequisites
 
-| Requirement | Notes |
-|-------------|-------|
-| Python 3.10+ | Tested on Python 3.13 |
-| Snowflake account | Enterprise edition; `ACCOUNTADMIN` role |
-| `SNOWFLAKE.CORTEX_USER` database role | Grants access to Cortex AI functions |
+- **Python**: Version 3.10+ (Tested on Python 3.13)
+- **Snowflake Account**: Enterprise Edition with `ACCOUNTADMIN` or equivalent administrative role.
+- **Privileges**: Granted `SNOWFLAKE.CORTEX_USER` database role for Cortex Search & Complete API access.
 
-### 1. Install dependencies
+### 1. Repository Setup & Environment Configuration
+
+Clone the repository and install required dependencies:
 
 ```bash
+git clone https://github.com/nishnarudkar/SynapseCortex-AI-Patient-Member-360-Clinical-Regulatory-Copilot.git
+cd SynapseCortex-AI-Patient-Member-360-Clinical-Regulatory-Copilot
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install pinned dependencies
 pip install -r requirements.txt
 ```
-
-### 2. Configure credentials
 
 Create a `.env` file in the project root:
 
 ```env
-SNOWFLAKE_ACCOUNT=CNWXSKG-MW91931
+SNOWFLAKE_ACCOUNT=your_account_identifier
 SNOWFLAKE_USER=your_username
 SNOWFLAKE_PASSWORD=your_password
 SNOWFLAKE_WAREHOUSE=SYNAPSE_WH
@@ -308,160 +287,59 @@ SNOWFLAKE_SCHEMA=APP
 SNOWFLAKE_ROLE=ACCOUNTADMIN
 ```
 
-### 3. Run Snowflake DDL scripts (in order)
+---
 
-In Snowsight → **Projects → New SQL file** — run each script with **Ctrl+A → Run**:
+### 2. Database DDL & Ingestion Pipeline
 
-```
-01_database_schemas.sql     → database + 3 schemas
-02_raw_tables.sql           → PATIENTS, ENCOUNTERS, CLAIMS, LABS
-03_clinical_stage.sql       → internal stage + file formats
-```
-
-Also run once as ACCOUNTADMIN:
-```sql
-GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE ACCOUNTADMIN;
-
-CREATE WAREHOUSE IF NOT EXISTS SYNAPSE_WH
-    WAREHOUSE_SIZE = 'X-SMALL' AUTO_SUSPEND = 60 AUTO_RESUME = TRUE;
-```
-
-### 4. Generate synthetic data
+Execute the Snowflake DDL scripts in sequence to construct the database objects and populate data:
 
 ```bash
-python data_generator/generate_synthetic_data.py
-```
-
-### 5. Upload files and load RAW tables
-
-```bash
+# Step 1: Upload seed CSVs & clinical documents to Snowflake stage
 python upload_to_snowflake.py
-```
 
-### 6. Parse clinical documents
-
-```bash
+# Step 2: Parse clinical documents into TRANSFORMED.PARSED_CLINICAL_DOCS
 python parse_and_load_docs.py
 ```
 
-### 7. Build Cortex pipeline (Snowsight)
-
-Run in order:
-```
-06_cortex_search_service.sql   → Cortex Search Service (takes ~2 min)
-08_patient_360_and_copilot.sql → Patient 360 view + snapshot table
-```
-
-### 8. Test the RAG engine locally
-
-```bash
-# First bypass MFA (60 min window) in Snowsight:
-# ALTER USER your_username SET MINS_TO_BYPASS_MFA = 60;
-
-python app/rag_engine.py
-```
-
-### 9. Deploy the Streamlit app
-
-In Snowsight → **Projects → Streamlit → + Streamlit App**:
-- Warehouse: `SYNAPSE_WH`
-- Database: `SYNAPSE_HEALTH`
-- Schema: `APP`
-
-Upload `app/app.py` and `app/rag_engine.py`, set `app.py` as the main file, click **Run**.
+Alternatively, run the DDL scripts directly in **Snowsight Worksheets**:
+1. `snowflake/ddl/01_database_schemas.sql` — Creates `SYNAPSE_HEALTH` DB, schemas, and warehouse.
+2. `snowflake/ddl/02_raw_tables.sql` — Builds `PATIENTS`, `ENCOUNTERS`, `CLAIMS`, and `LABS` tables.
+3. `snowflake/ddl/03_clinical_stage.sql` — Configures internal stage `@CLINICAL_STAGE`.
+4. `snowflake/ddl/05_parsed_clinical_docs.sql` — Creates document parsing table.
+5. `snowflake/ddl/06_cortex_search_service.sql` — Provisions `CLINICAL_DOC_SEARCH` Cortex Search Service.
+6. `snowflake/ddl/08_patient_360_and_copilot.sql` — Creates `PATIENT_360_VIEW` & `PATIENT_360_SNAPSHOT`.
 
 ---
 
-## Python Dependencies
+### 3. Deploying Streamlit in Snowflake (SiS)
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `faker` | 24.0.0 | Synthetic patient data generation |
-| `pandas` | 2.2.3 | CSV output (cp313 wheel available) |
-| `snowflake-snowpark-python` | 1.55.0 | Snowflake session + SQL execution |
-| `snowflake-ml-python` | 2.0.0 | Cortex AI Python helpers |
-| `snowflake-core` | 1.13.1 | Cortex Search SDK |
-| `snowflake-connector-python` | 4.7.3 | Standalone connections |
-| `python-dotenv` | 1.0.1 | Load env vars from `.env` |
-| `streamlit` | 1.35.0 | Local testing only (bundled in Snowsight) |
-
-> All versions updated for Python 3.13 compatibility. The original project was pinned to versions that only supported Python ≤ 3.12.
+1. Log into **Snowsight**.
+2. Navigate to **Projects** → **Streamlit** → Click **+ Streamlit App**.
+3. Set the App details:
+   - **App Name**: `SynapseCortex AI`
+   - **Warehouse**: `SYNAPSE_WH`
+   - **Database**: `SYNAPSE_HEALTH`
+   - **Schema**: `APP`
+4. Replace the default app code with `app/app.py`.
+5. Upload `app/rag_engine.py` as a stage file into the same Streamlit package directory.
+6. Click **Run** to launch the production application!
 
 ---
 
-## Key Technical Decisions
+## 🔒 Security, Compliance & Governance
 
-### Why SQL-based risk and care gap detection?
-Both `RISK_TIER` and `CARE_GAP_STATUS` are computed by deterministic SQL rules — no LLM inference involved. This ensures consistency, auditability, and zero hallucination risk for clinical flags that affect patient safety decisions.
-
-```sql
--- Risk stratification
-CASE WHEN AGE > 65 AND total_claims_cost > 25000 THEN 'HIGH RISK' ELSE 'LOW RISK' END
-
--- Care gap (HEDIS NQF-0059)
-CASE WHEN has_diabetes_dx = 1
-      AND (last_hba1c_date IS NULL
-           OR last_hba1c_date < DATEADD('month', -12, CURRENT_DATE()))
-     THEN 'GAP: Overdue HbA1c Lab' ELSE 'NO GAP' END
-```
-
-### Why Dual-RAG?
-A single RAG arm — either structured data or documents alone — is insufficient for clinical reasoning:
-- Structured data alone can't explain *why* a medication is dangerous
-- Documents alone don't know *this specific patient's* lab values
-
-Dual-RAG combines both: Arm 1 gives patient-specific context, Arm 2 gives regulatory grounding.
-
-### Why Cortex Search over raw vector embedding?
-Cortex Search provides hybrid search (semantic + lexical) with incremental refresh, built-in embedding, and filter attributes — all managed by Snowflake. No external vector database, no embedding pipeline to maintain.
-
-### Why `.txt` files instead of PDFs?
-Clinical documents are plain text. `AI_PARSE_DOCUMENT` with `page_split: true` only works for PDF/DOCX/PPTX — for `.txt` it returns the raw content directly. We load the text via Python instead, which is equivalent and avoids unnecessary file format conversion. A PDF upgrade path is documented in `05_parsed_clinical_docs.sql`.
-
-### Citation enforcement
-The LLM is instructed via system prompt to append `[Doc: <filename>, Page: <n>]` after every factual claim. If no evidence exists in either context, it must respond with `Insufficient evidence.` — preventing hallucination beyond the provided data.
+- **Strict Zero-Hallucination Guardrails**: System prompts mandate strict adherence to retrieved context. Unsubstantiated queries return `Insufficient evidence.`
+- **Snowflake Server-Side Encryption (SSE)**: All staged documents and database tables are encrypted at rest using AES-256 (`SNOWFLAKE_SSE`).
+- **HIPAA Readiness**: Data processing and LLM inference occur entirely within Snowflake's compliant security perimeter; no data is ever transmitted to third-party public AI APIs.
+- **Audit Logging**: All care action dispatches record immutable event payloads with ISO-8601 timestamps for compliance review.
 
 ---
 
-## Copilot System Prompt
+## 📜 License & Acknowledgments
 
-```
-You are the SynapseCortex AI Clinical Regulatory Copilot.
-Synthesize answers STRICTLY using:
-  - CONTEXT A: Patient 360 Structured Data
-  - CONTEXT B: Clinical Document Chunks from vector search
+Distributed under the **MIT License**. See `LICENSE` for details.
 
-For EVERY factual claim, append: [Doc: <file_name>, Page: <page_number>]
-If no evidence exists in either context, respond: Insufficient evidence.
-Do NOT use any prior training knowledge beyond the two provided contexts.
-```
-
----
-
-## Git History
-
-| Commit | Description |
-|--------|-------------|
-| `cf4457c` | Dual-mode session in app.py + snowflake.yml |
-| `da69e26` | Fix Complete import for Streamlit in Snowflake |
-| `4d76a1c` | Updated seed CSVs + UUID_STRING fix in script 05 |
-| `72acf4f` | Python 3.13 + snowflake-ml 2.0 compatibility fixes |
-| `97b4e15` | Bump dependencies for Python 3.13 |
-| `5dc964e` | Seed CSVs + .gitignore |
-| `5fb53c9` | Streamlit in Snowflake application |
-| `126dd55` | requirements.txt + initial README |
-| `9403fa3` | Patient 360 view + Dual-RAG engine |
-| `6faa7cf` | Cortex document parsing + Search Service |
-| `70f641d` | Data foundation — DDL, faker, clinical docs |
-
----
-
-<div align="center">
-
-*Built for the Snowflake AI Data Engineering Hackathon · September 2026*
-
-*Snowflake Cortex AI · llama3.3-70b · Streamlit in Snowflake · Python 3.13*
-
-**Live App →** [https://app.snowflake.com/streamlit/cnwxskg/mw91931/#/apps/b2pmsuf3ml5nmm3cmolf](https://app.snowflake.com/streamlit/cnwxskg/mw91931/#/apps/b2pmsuf3ml5nmm3cmolf)
-
-</div>
+Developed for the **Snowflake Cortex AI Hackathon 2026** leveraging:
+- [Snowflake Cortex AI Services](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions)
+- [Streamlit in Snowflake](https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit)
+- Meta's `llama3.3-70b` and Snowflake's `arctic-embed-l-v2.0` models.
