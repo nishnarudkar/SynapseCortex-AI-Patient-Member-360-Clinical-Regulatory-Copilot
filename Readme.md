@@ -16,9 +16,10 @@ A Snowflake-native clinical intelligence platform unifying structured EHR data, 
 ## Table of Contents
 
 - [Executive Summary](#executive-summary)
+- [Application Screenshots](#application-screenshots)
 - [Key Features & Business Impact](#key-features--business-impact)
-- [System Architecture](#system-architecture)
-  - [Data Processing Pipeline](#data-processing-pipeline)
+- [Data Processing Pipeline & Architecture](#data-processing-pipeline--architecture)
+  - [Pipeline Flow Diagram](#pipeline-flow-diagram)
   - [Dual-RAG Execution Workflow](#dual-rag-execution-workflow)
 - [Documentation Index](#documentation-index)
 - [Hero Clinical Scenarios](#hero-clinical-scenarios)
@@ -47,6 +48,16 @@ Healthcare platforms face a structural data challenge: over 80% of critical pati
 
 ---
 
+## Application Screenshots
+
+### Tab 1 — Patient 360 Dashboard
+![Patient 360 Dashboard](screenshots/patient_360_dashboard.jpg)
+
+### Tab 2 — Clinical & Regulatory Copilot
+![Clinical Copilot](screenshots/clinical_copilot.jpg)
+
+---
+
 ## Key Features & Business Impact
 
 - **Unified Patient 360 View**: Multi-way SQL join combining demographic profiles, clinical encounter histories, procedure billing claims, and LOINC laboratory observations.
@@ -57,44 +68,39 @@ Healthcare platforms face a structural data challenge: over 80% of critical pati
 
 ---
 
-## System Architecture
+## Data Processing Pipeline & Architecture
 
-### Data Processing Pipeline
+### Pipeline Flow Diagram
 
-```
-+---------------------------------------------------------------------------------------+
-|                               SYNAPSE_HEALTH Database                                 |
-|                                                                                       |
-|  +---------------------------------------------------------------------------------+  |
-|  | RAW Schema (Landing Layer)                                                      |  |
-|  |  - PATIENTS (Demographics & insurance attributes)                               |  |
-|  |  - ENCOUNTERS (Visits, facilities, primary diagnoses)                           |  |
-|  |  - CLAIMS (Medical & pharmacy billing claims)                                   |  |
-|  |  - LABS (LOINC-coded lab observations & reference ranges)                       |  |
-|  |  - @CLINICAL_STAGE (SSE-encrypted internal stage for text documents)           |  |
-|  +---------------------------------------------------------------------------------+  |
-|                                           |                                           |
-|                                           v  Python Parsers & SQL Transforms          |
-|  +---------------------------------------------------------------------------------+  |
-|  | TRANSFORMED Schema (Enriched Layer)                                             |  |
-|  |  - PARSED_CLINICAL_DOCS (Document chunks with metadata & change tracking)       |  |
-|  |  - PATIENT_360_VIEW (4-way join + Risk Tier + Care Gap + Safety Flags)          |  |
-|  +---------------------------------------------------------------------------------+  |
-|                                           |                                           |
-|                                           v  Cortex Search Service & Snapshot Table    |
-|  +---------------------------------------------------------------------------------+  |
-|  | APP Schema (Serving & Search Layer)                                             |  |
-|  |  - CLINICAL_DOC_SEARCH (Cortex Search Service using arctic-embed-l-v2.0)        |  |
-|  |  - PATIENT_360_SNAPSHOT (Materialized longitudinal patient profile table)       |  |
-|  +---------------------------------------------------------------------------------+  |
-|                                           |                                           |
-|                                           v  Streamlit in Snowflake                    |
-|  +---------------------------------------------------------------------------------+  |
-|  | User Interface (app/app.py)                                                     |  |
-|  |  - Tab 1: Patient 360 Dashboard                                                  |  |
-|  |  - Tab 2: Clinical & Regulatory Copilot (Dual-RAG Chat & Action Dispatcher)      |  |
-|  +---------------------------------------------------------------------------------+  |
-+---------------------------------------------------------------------------------------+
+The following diagram details the multi-stage ETL and AI inference pipeline operating inside Snowflake:
+
+```mermaid
+flowchart TD
+    subgraph Ingestion["1. RAW DATA INGESTION LAYER"]
+        CSV_P["PATIENTS.csv"] --> RAW_P["RAW.PATIENTS Table"]
+        CSV_E["ENCOUNTERS.csv"] --> RAW_E["RAW.ENCOUNTERS Table"]
+        CSV_C["CLAIMS.csv"] --> RAW_C["RAW.CLAIMS Table"]
+        CSV_L["LABS.csv"] --> RAW_L["RAW.LABS Table"]
+        TXT_D["Clinical Notes & FDA Inserts"] --> STG_C["@RAW.CLINICAL_STAGE (SSE-Encrypted Stage)"]
+    end
+
+    subgraph Transformation["2. DATA TRANSFORMATION & ENRICHMENT LAYER"]
+        RAW_P & RAW_E & RAW_C & RAW_L --> V_360["TRANSFORMED.PATIENT_360_VIEW (SQL Join + Risk Rules + Care Gaps)"]
+        STG_C --> PARSER["Python Doc Parser (parse_and_load_docs.py)"]
+        PARSER --> T_DOCS["TRANSFORMED.PARSED_CLINICAL_DOCS (CHANGE_TRACKING=TRUE)"]
+    end
+
+    subgraph Serving["3. CORTEX AI & SERVING LAYER"]
+        V_360 --> SNAP_360["APP.PATIENT_360_SNAPSHOT (Materialized Patient 360 Table)"]
+        T_DOCS --> SEARCH["APP.CLINICAL_DOC_SEARCH (Cortex Search Service - arctic-embed-l-v2.0)"]
+    end
+
+    subgraph Intelligence["4. DUAL-RAG COPILOT & INTERFACE"]
+        SNAP_360 --> ENGINE["Dual-RAG Engine (app/rag_engine.py)"]
+        SEARCH --> ENGINE
+        ENGINE --> LLM["SNOWFLAKE.CORTEX.COMPLETE (llama3.3-70b)"]
+        LLM --> UI["Streamlit in Snowflake Application (app/app.py)"]
+    end
 ```
 
 ### Dual-RAG Execution Workflow
@@ -138,7 +144,7 @@ The cohort dataset includes three validated test profiles representing key clini
 ### Scenario 1: Medication Safety Contraindication
 - **Patient**: Robert Callahan (`HERO-PT-001`) | Age 58
 - **Clinical Profile**: Chronic Kidney Disease (CKD) Stage 3 (eGFR 38 mL/min, Creatinine 2.4 mg/dL) with an active Metformin 1000mg BID prescription.
-- **System Finding**: Triggers a `ALERT: Metformin active with eGFR < 45` flag. The copilot retrieves FDA Black Box Warning guidelines from `fda_insert_METFORMIN.txt` citing contraindication risks for lactic acidosis.
+- **System Finding**: Triggers an `ALERT: Metformin active with eGFR < 45` flag. The copilot retrieves FDA Black Box Warning guidelines from `fda_insert_METFORMIN.txt` citing contraindication risks for lactic acidosis.
 
 ### Scenario 2: Preventive Care Quality Gap
 - **Patient**: Linda Moreno (`HERO-PT-002`) | Age 62

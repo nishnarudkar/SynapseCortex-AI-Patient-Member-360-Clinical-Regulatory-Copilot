@@ -48,6 +48,37 @@ The application is structured into three primary architectural tiers: Data Inges
 +---------------------------------------------------------------------------------------+
 ```
 
+### Data Processing Pipeline Flowchart
+
+```mermaid
+flowchart TD
+    subgraph Ingestion["1. RAW DATA INGESTION LAYER"]
+        CSV_P["PATIENTS.csv"] --> RAW_P["RAW.PATIENTS Table"]
+        CSV_E["ENCOUNTERS.csv"] --> RAW_E["RAW.ENCOUNTERS Table"]
+        CSV_C["CLAIMS.csv"] --> RAW_C["RAW.CLAIMS Table"]
+        CSV_L["LABS.csv"] --> RAW_L["RAW.LABS Table"]
+        TXT_D["Clinical Notes & FDA Inserts"] --> STG_C["@RAW.CLINICAL_STAGE (SSE-Encrypted Stage)"]
+    end
+
+    subgraph Transformation["2. DATA TRANSFORMATION & ENRICHMENT LAYER"]
+        RAW_P & RAW_E & RAW_C & RAW_L --> V_360["TRANSFORMED.PATIENT_360_VIEW (SQL Join + Risk Rules + Care Gaps)"]
+        STG_C --> PARSER["Python Doc Parser (parse_and_load_docs.py)"]
+        PARSER --> T_DOCS["TRANSFORMED.PARSED_CLINICAL_DOCS (CHANGE_TRACKING=TRUE)"]
+    end
+
+    subgraph Serving["3. CORTEX AI & SERVING LAYER"]
+        V_360 --> SNAP_360["APP.PATIENT_360_SNAPSHOT (Materialized Patient 360 Table)"]
+        T_DOCS --> SEARCH["APP.CLINICAL_DOC_SEARCH (Cortex Search Service - arctic-embed-l-v2.0)"]
+    end
+
+    subgraph Intelligence["4. DUAL-RAG COPILOT & INTERFACE"]
+        SNAP_360 --> ENGINE["Dual-RAG Engine (app/rag_engine.py)"]
+        SEARCH --> ENGINE
+        ENGINE --> LLM["SNOWFLAKE.CORTEX.COMPLETE (llama3.3-70b)"]
+        LLM --> UI["Streamlit in Snowflake Application (app/app.py)"]
+    end
+```
+
 ---
 
 ## Sequence & Data Flow
