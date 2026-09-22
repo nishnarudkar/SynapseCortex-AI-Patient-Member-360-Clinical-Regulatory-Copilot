@@ -326,10 +326,10 @@ class ClinicalCopilot:
                 COALESCE(CLAIM_COUNT, 0)            AS CLAIM_COUNT,
                 TO_VARCHAR(LAST_CLAIM_DATE)         AS LAST_CLAIM_DATE
             FROM {PATIENT_SNAPSHOT_TABLE}
-            WHERE PATIENT_ID = '{patient_id}'
+            WHERE PATIENT_ID = ?
             LIMIT 1
         """
-        rows = self._session.sql(sql).collect()
+        rows = self._session.sql(sql, params=[patient_id]).collect()
         if not rows:
             logger.warning("Patient not found in snapshot: %s", patient_id)
             return None
@@ -440,11 +440,11 @@ class ClinicalCopilot:
 
             chunks = [
                 DocumentChunk(
-                    file_name    = row["file_name"],
+                    file_name    = row.get("file_name", "unknown"),
                     page_number  = int(row.get("page_number", 1)),
                     doc_category = row.get("doc_category", ""),
                     hero_patient = row.get("hero_patient"),
-                    page_text    = row["page_text"],
+                    page_text    = row.get("page_text", ""),
                 )
                 for row in result.results
             ]
@@ -567,22 +567,26 @@ class ClinicalCopilot:
             sum(len(m["content"]) for m in messages),
         )
         try:
-            # Serialize messages to JSON string for the SQL call
+            # Serialize messages / options to JSON and bind them as query
+            # parameters rather than interpolating into the SQL text — this
+            # is both safer and immune to '$$' or quote characters that may
+            # appear in free-text questions or retrieved document chunks.
             messages_json = _json.dumps(messages, ensure_ascii=False)
-            # Escape single quotes for SQL string literal
-            messages_escaped = messages_json.replace("'", "\\'")
+            options_json = _json.dumps({
+                "temperature": LLM_TEMPERATURE,
+                "max_tokens": LLM_MAX_TOKENS,
+            })
 
-            sql = f"""
+            sql = """
                 SELECT SNOWFLAKE.CORTEX.COMPLETE(
-                    '{CORTEX_LLM_MODEL}',
-                    PARSE_JSON($${messages_json}$$),
-                    {{
-                        'temperature': {LLM_TEMPERATURE},
-                        'max_tokens': {LLM_MAX_TOKENS}
-                    }}
+                    ?,
+                    PARSE_JSON(?),
+                    PARSE_JSON(?)
                 ) AS answer
             """
-            rows = self._session.sql(sql).collect()
+            rows = self._session.sql(
+                sql, params=[CORTEX_LLM_MODEL, messages_json, options_json]
+            ).collect()
             if rows and rows[0]["ANSWER"]:
                 result = str(rows[0]["ANSWER"]).strip()
                 # The SQL CORTEX.COMPLETE returns a JSON string — extract the message text

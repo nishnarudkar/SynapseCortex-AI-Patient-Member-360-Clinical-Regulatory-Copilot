@@ -22,8 +22,13 @@ ENV/
 # ── Environment / secrets ──────────────────────────────────────────────────────
 .env
 .env.*
+!.env.example
 *.key
 *.pem
+
+# ── Dev-session / assistant logs ───────────────────────────────────────────────
+coco_execution_logs.txt
+*_execution_logs.txt
 
 # ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
