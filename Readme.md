@@ -50,16 +50,25 @@ Healthcare platforms face a structural data challenge: over 80% of critical pati
 
 ## Application Screenshots
 
-### Tab 1 — Patient 360 Dashboard Metrics & Profile
+### Tab 1 — Patient 360 Dashboard (Hero 1: Medication Safety Violation)
 ![Patient 360 Dashboard Metrics](screenshots/patient_360_dashboard.png)
 
-### Tab 1 — Diagnoses, Active Medications & Lab History
-![Patient 360 Diagnoses & Labs](screenshots/patient_360_labs_encounters.png)
+### Tab 1 — Encounters, LOINC Lab Results & Claims History
+![Patient 360 Encounters & Labs](screenshots/patient_360_labs_encounters.png)
 
-### Tab 2 — Evidence-Grounded Clinical Regulatory Copilot
+### Tab 1 — Hero 2: Preventive Care Quality Gap (HEDIS NQF-0059 Overdue HbA1c)
+![Patient 360 Care Quality Gap](screenshots/patient_360_hero2_care_gap.png)
+
+### Tab 1 — Hero 3: High-Risk Polypharmacy Patient Profile ($51k Expenditure)
+![Patient 360 High-Risk Polypharmacy](screenshots/patient_360_hero3_high_risk.png)
+
+### Tab 2 — Evidence-Grounded Dual-RAG Clinical Regulatory Copilot
 ![Clinical Copilot Chat](screenshots/clinical_copilot_chat.png)
 
-### Tab 2 — Clinical Action Dispatcher & Workflow Panel
+### Tab 2 — Retrieved Document Chunks & Evidence Drawer
+![Retrieved Document Chunks](screenshots/clinical_copilot_evidence_drawer.png)
+
+### Tab 2 — Clinical Action Dispatcher & MCP Audit Workflow Panel
 ![Clinical Action Dispatcher](screenshots/clinical_action_dispatcher.png)
 
 ---
