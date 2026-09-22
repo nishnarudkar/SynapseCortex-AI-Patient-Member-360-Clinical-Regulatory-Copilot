@@ -345,9 +345,9 @@ class ClinicalCopilot:
             active_medication_count = int(r["ACTIVE_MEDICATION_COUNT"] or 0),
             total_claims_cost       = float(r["TOTAL_CLAIMS_COST"] or 0),
             last_hba1c_date         = r["LAST_HBA1C_DATE"],
-            last_hba1c_value        = float(r["LAST_HBA1C_VALUE"]) if r["LAST_HBA1C_VALUE"] else None,
-            last_egfr_value         = float(r["LAST_EGFR_VALUE"])  if r["LAST_EGFR_VALUE"]  else None,
-            last_creatinine_value   = float(r["LAST_CREATININE_VALUE"]) if r["LAST_CREATININE_VALUE"] else None,
+            last_hba1c_value        = float(r["LAST_HBA1C_VALUE"]) if r["LAST_HBA1C_VALUE"] is not None else None,
+            last_egfr_value         = float(r["LAST_EGFR_VALUE"])  if r["LAST_EGFR_VALUE"]  is not None else None,
+            last_creatinine_value   = float(r["LAST_CREATININE_VALUE"]) if r["LAST_CREATININE_VALUE"] is not None else None,
             all_dx_codes            = r["ALL_DX_CODES"],
             all_dx_descriptions     = r["ALL_DX_DESCRIPTIONS"],
             chronic_condition_count = int(r["CHRONIC_CONDITION_COUNT"] or 0),
@@ -592,10 +592,17 @@ class ClinicalCopilot:
                 # The SQL CORTEX.COMPLETE returns a JSON string — extract the message text
                 try:
                     parsed = _json.loads(result)
-                    # Standard response shape: {"choices": [{"messages": "<text>"}]}
-                    result = parsed["choices"][0].get("messages", result)
+                    if isinstance(parsed, dict) and "choices" in parsed and parsed["choices"]:
+                        choice = parsed["choices"][0]
+                        if isinstance(choice, dict):
+                            if "messages" in choice:
+                                result = choice["messages"]
+                            elif "message" in choice:
+                                msg = choice["message"]
+                                result = msg.get("content", msg) if isinstance(msg, dict) else msg
+                            elif "text" in choice:
+                                result = choice["text"]
                 except (KeyError, IndexError, TypeError, _json.JSONDecodeError):
-                    # If it's already plain text or unexpected shape, use as-is
                     if result.startswith('"') and result.endswith('"'):
                         result = _json.loads(result)
                 logger.info("CORTEX.COMPLETE returned %d chars", len(result))
