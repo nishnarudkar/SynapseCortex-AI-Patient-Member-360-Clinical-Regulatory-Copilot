@@ -53,13 +53,6 @@ from typing import Any
 from snowflake.snowpark import Session
 from snowflake.core import Root                # Cortex Search SDK
 
-# Complete import is optional — only used in older SDK versions
-# Our _call_complete method uses SQL which works in all environments
-try:
-    from snowflake.cortex import Complete
-except ImportError:
-    Complete = None
-
 logger = logging.getLogger(__name__)
 logging.basicConfig(
     level  = logging.INFO,
@@ -559,8 +552,6 @@ class ClinicalCopilot:
         Invoke SNOWFLAKE.CORTEX.COMPLETE via SQL (works with all auth methods).
         Returns the assistant's response as a plain string.
         """
-        import json as _json
-
         logger.info(
             "Calling CORTEX.COMPLETE | model=%s | prompt_chars=%d",
             CORTEX_LLM_MODEL,
@@ -571,8 +562,8 @@ class ClinicalCopilot:
             # parameters rather than interpolating into the SQL text — this
             # is both safer and immune to '$$' or quote characters that may
             # appear in free-text questions or retrieved document chunks.
-            messages_json = _json.dumps(messages, ensure_ascii=False)
-            options_json = _json.dumps({
+            messages_json = json.dumps(messages, ensure_ascii=False)
+            options_json = json.dumps({
                 "temperature": LLM_TEMPERATURE,
                 "max_tokens": LLM_MAX_TOKENS,
             })
@@ -591,7 +582,7 @@ class ClinicalCopilot:
                 result = str(rows[0]["ANSWER"]).strip()
                 # The SQL CORTEX.COMPLETE returns a JSON string — extract the message text
                 try:
-                    parsed = _json.loads(result)
+                    parsed = json.loads(result)
                     if isinstance(parsed, dict) and "choices" in parsed and parsed["choices"]:
                         choice = parsed["choices"][0]
                         if isinstance(choice, dict):
@@ -602,9 +593,9 @@ class ClinicalCopilot:
                                 result = msg.get("content", msg) if isinstance(msg, dict) else msg
                             elif "text" in choice:
                                 result = choice["text"]
-                except (KeyError, IndexError, TypeError, _json.JSONDecodeError):
+                except (KeyError, IndexError, TypeError, json.JSONDecodeError):
                     if result.startswith('"') and result.endswith('"'):
-                        result = _json.loads(result)
+                        result = json.loads(result)
                 logger.info("CORTEX.COMPLETE returned %d chars", len(result))
                 return result.strip()
             return "Insufficient evidence."
@@ -621,7 +612,7 @@ def print_result(result: CopilotResult) -> None:
     """Pretty-print a CopilotResult to stdout."""
     divider = "=" * 80
     print(divider)
-    print(f"SynapseCortex AI Clinical Regulatory Copilot")
+    print("SynapseCortex AI Clinical Regulatory Copilot")
     print(divider)
     print(f"Patient ID   : {result.patient_id}")
     print(f"Question     : {result.user_query}")

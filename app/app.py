@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import pandas as pd
 import streamlit as st
@@ -26,7 +26,7 @@ from snowflake.snowpark.context import get_active_session
 # Import the RAG engine from the sibling module.
 # In Streamlit in Snowflake, upload both app.py and rag_engine.py;
 # the app resolves imports from the same package directory.
-from rag_engine import ClinicalCopilot, CopilotResult, Patient360Context, DocumentChunk
+from rag_engine import ClinicalCopilot, CopilotResult
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Page config  (must be first Streamlit call)
