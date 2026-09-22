@@ -206,12 +206,18 @@ cd SynapseCortex-AI-Patient-Member-360-Clinical-Regulatory-Copilot
 python -m venv venv
 source venv/bin/activate  # On Windows: .\venv\Scripts\Activate.ps1
 
+# Copy environment template & configure Snowflake credentials
+cp .env.example .env
+
 # Install requirements
 pip install -r requirements.txt
 
 # Execute data ingestion pipeline
 python upload_to_snowflake.py
 python parse_and_load_docs.py
+
+# Launch Streamlit app locally
+streamlit run app/app.py
 ```
 
 For complete Streamlit in Snowflake (SiS) deployment instructions, refer to the [Deployment Guide](docs/DEPLOYMENT_GUIDE.md).
