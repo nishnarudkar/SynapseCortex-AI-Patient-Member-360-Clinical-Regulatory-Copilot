@@ -8,8 +8,10 @@ entities:
       name: SYNAPSECORTEX_AI
       schema: APP
       database: SYNAPSE_HEALTH
-    main_file: streamlit_app.py
+    main_file: app/app.py
     query_warehouse: SYNAPSE_WH
+    runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
+    compute_pool: SYSTEM_COMPUTE_POOL_CPU
     artifacts:
       - src: app/app.py
         dest: streamlit_app.py
