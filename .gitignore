@@ -26,6 +26,7 @@ ENV/
 !.env.example
 *.key
 *.pem
+.streamlit/secrets.toml
 
 # ── Dev-session / assistant logs ───────────────────────────────────────────────
 coco_execution_logs.txt

@@ -21,7 +21,13 @@ from datetime import datetime
 
 import pandas as pd
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+import sys
+from pathlib import Path
+
+# Ensure the app directory is on sys.path whether run locally, from root, or on Streamlit Cloud
+_app_dir = Path(__file__).resolve().parent
+if str(_app_dir) not in sys.path:
+    sys.path.insert(0, str(_app_dir))
 
 # Import the RAG engine from the sibling module.
 # In Streamlit in Snowflake, upload both app.py and rag_engine.py;
@@ -434,6 +440,7 @@ CARE_ACTION_CHANNELS = ["Jira Ticket", "Slack Alert", "Email Notification", "Pag
 @st.cache_resource(show_spinner="Connecting to Snowflake…")
 def get_session():
     try:
+        from snowflake.snowpark.context import get_active_session
         return get_active_session()
     except Exception:
         import os
@@ -441,28 +448,73 @@ def get_session():
         from snowflake.snowpark import Session
 
         load_dotenv()
+
+        def _lookup_credential(key: str) -> str | None:
+            # 1. Environment variable (.env or OS)
+            val = os.environ.get(key)
+            if val:
+                return str(val).strip()
+
+            # 2. Streamlit Cloud Secrets (st.secrets)
+            if hasattr(st, "secrets"):
+                if key in st.secrets:
+                    return str(st.secrets[key]).strip()
+                if key.lower() in st.secrets:
+                    return str(st.secrets[key.lower()]).strip()
+                # Check nested section: [snowflake]
+                if "snowflake" in st.secrets:
+                    short = key.replace("SNOWFLAKE_", "").lower()
+                    if short in st.secrets["snowflake"]:
+                        return str(st.secrets["snowflake"][short]).strip()
+                    if key in st.secrets["snowflake"]:
+                        return str(st.secrets["snowflake"][key]).strip()
+                    if key.lower() in st.secrets["snowflake"]:
+                        return str(st.secrets["snowflake"][key.lower()]).strip()
+            return None
+
         required = [
             "SNOWFLAKE_ACCOUNT", "SNOWFLAKE_USER", "SNOWFLAKE_PASSWORD",
             "SNOWFLAKE_WAREHOUSE", "SNOWFLAKE_DATABASE", "SNOWFLAKE_SCHEMA",
             "SNOWFLAKE_ROLE",
         ]
-        missing = [v for v in required if not os.environ.get(v)]
+        resolved = {v: _lookup_credential(v) for v in required}
+        missing = [v for v, val in resolved.items() if not val]
+
         if missing:
             st.error(
-                "Missing Snowflake connection settings: " + ", ".join(missing) +
-                ". Copy `.env.example` to `.env` and fill in your own "
-                "credentials before running this app outside Snowsight."
+                "### ⚠️ Snowflake Connection Credentials Missing\n\n"
+                f"Missing variables: `{', '.join(missing)}`\n\n"
+                "**Deploying on Streamlit Cloud?**\n"
+                "1. Go to your app at [share.streamlit.io](https://share.streamlit.io)\n"
+                "2. Open **App Settings** (⚙️) → **Secrets**\n"
+                "3. Add your Snowflake credentials:\n"
+                "```toml\n"
+                "SNOWFLAKE_ACCOUNT = \"your_account_identifier\"\n"
+                "SNOWFLAKE_USER = \"your_username\"\n"
+                "SNOWFLAKE_PASSWORD = \"your_password\"\n"
+                "SNOWFLAKE_WAREHOUSE = \"SYNAPSE_WH\"\n"
+                "SNOWFLAKE_DATABASE = \"SYNAPSE_HEALTH\"\n"
+                "SNOWFLAKE_SCHEMA = \"APP\"\n"
+                "SNOWFLAKE_ROLE = \"ACCOUNTADMIN\"\n"
+                "```\n\n"
+                "**Running Locally?**\n"
+                "Copy `.env.example` to `.env` and fill in your credentials."
             )
             st.stop()
 
+        # Propagate resolved secrets to os.environ so downstream SDKs (e.g., snowflake-core) can see them
+        for k, v in resolved.items():
+            if v:
+                os.environ[k] = v
+
         params = {
-            "account":   os.environ["SNOWFLAKE_ACCOUNT"],
-            "user":      os.environ["SNOWFLAKE_USER"],
-            "password":  os.environ["SNOWFLAKE_PASSWORD"],
-            "warehouse": os.environ["SNOWFLAKE_WAREHOUSE"],
-            "database":  os.environ["SNOWFLAKE_DATABASE"],
-            "schema":    os.environ["SNOWFLAKE_SCHEMA"],
-            "role":      os.environ["SNOWFLAKE_ROLE"],
+            "account":   resolved["SNOWFLAKE_ACCOUNT"],
+            "user":      resolved["SNOWFLAKE_USER"],
+            "password":  resolved["SNOWFLAKE_PASSWORD"],
+            "warehouse": resolved["SNOWFLAKE_WAREHOUSE"],
+            "database":  resolved["SNOWFLAKE_DATABASE"],
+            "schema":    resolved["SNOWFLAKE_SCHEMA"],
+            "role":      resolved["SNOWFLAKE_ROLE"],
         }
         return Session.builder.configs(params).create()
 
