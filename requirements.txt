@@ -1,38 +1,20 @@
+--prefer-binary
 # =============================================================================
 # SynapseCortex AI | Patient 360 & Clinical Regulatory Copilot
 # File    : requirements.txt
-# Purpose : Python dependencies for all modules in this project
-#
-# Install:
-#   pip install -r requirements.txt
-#
-# Python version: >= 3.10  (tested on 3.13)
+# Purpose : Dependencies for Streamlit application deployment
 # =============================================================================
 
-# ── Data generation (data_generator/generate_synthetic_data.py) ──────────────
-faker==24.0.0
-pandas==2.2.3                       # 2.2.3+ has cp313 wheels; 2.2.2 did not
+# ── Core data manipulation ───────────────────────────────────────────────────
+pandas>=2.2.0,<3.0.0
 
-# ── Snowflake Snowpark (app/rag_engine.py – session, SQL execution) ───────────
-# 1.23.0 required Python <3.12; 1.35.0+ supports Python 3.13
-snowflake-snowpark-python==1.55.0
+# ── Snowflake Snowpark & Core SDK (Session, SQL execution, Cortex Search) ─────
+snowflake-snowpark-python>=1.35.0
+snowflake-core>=1.0.0
+snowflake-connector-python>=3.12.0
 
-# ── Snowflake Cortex Python helpers (Complete() function) ────────────────────
-# 1.6.4 required Python <3.13; 2.0.0 is the first release supporting Python 3.13
-snowflake-ml-python==2.0.0
+# ── Environment & configuration ───────────────────────────────────────────────
+python-dotenv>=1.0.0
 
-# ── Snowflake Core SDK (Root, Cortex Search svc.search()) ────────────────────
-# 0.10.0 required Python ==3.8.*; 1.0.0+ supports Python 3.13
-snowflake-core==1.13.1
-
-# ── SnowSQL / connector (standalone external connections) ────────────────────
-# Pulled in transitively by snowpark above; pinned here for explicitness
-snowflake-connector-python==4.7.3
-
-# ── Standard utilities ────────────────────────────────────────────────────────
-python-dotenv==1.0.1        # load SNOWFLAKE_* env vars from a .env file
-
-# ── Streamlit (app/app.py – local testing only) ───────────────────────────────
-# Streamlit in Snowflake bundles its own Streamlit runtime; this pin is only
-# needed when running the app locally outside of Snowsight.
-streamlit==1.35.0
+# ── Streamlit UI runtime ──────────────────────────────────────────────────────
+streamlit>=1.35.0
